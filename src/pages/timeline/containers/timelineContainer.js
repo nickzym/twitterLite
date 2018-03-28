@@ -1,4 +1,4 @@
-import userPage from '../components/userPage'
+import timelinePage from '../components/timelinePage';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as actions  from '../../../store/actions/home';
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(userPage);
+export default connect(mapStateToProps, mapDispatchToProps)(timelinePage);

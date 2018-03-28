@@ -1,14 +1,10 @@
 import React from 'react';
 import homeRouter from '../../pages/home'
-import userRouter from '../../pages/user'
+import timelineRouter from '../../pages/timeline'
 
 const routesConfig=[
   homeRouter,
-  userRouter,
+  timelineRouter,
 ];
 
 export default routesConfig;
-
-
-
-

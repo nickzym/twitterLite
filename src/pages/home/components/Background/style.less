@@ -1,0 +1,106 @@
+@cssPrefix: twl-background;
+
+.@{cssPrefix} {
+    &--container {
+        position: relative;
+        justify-content: center;
+        text-align: center;
+        min-height: 100vh;
+        color: #fff;
+        top: -20px;
+    }
+
+    &--image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        z-index: -1;
+        background-color: #1C2833;
+    }
+
+    &--content {
+        padding-top: 25vh;
+        // animation: 1s slidefade 1s forwards;
+        font-family: Montserrat;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+    }
+
+    &--bar {
+        border: 0;
+        height: 2px;
+        width:400px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+        border-top: 1px solid #f8f8f8;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    &--slideshow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-size: cover;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            opacity: 0;
+            z-index: 0;
+            animation: imageAnimation 50s linear infinite;
+        }
+
+        li:nth-child(1) {
+          background-image: url(https://source.unsplash.com/Qc6vnbE4JQs)
+        }
+        li:nth-child(2) {
+          background-image: url(https://source.unsplash.com/OwvRB-M3GwE);
+          animation-delay: 10s;
+        }
+        li:nth-child(3) {
+          background-image: url(https://source.unsplash.com/3iT3dnmblGE);
+          animation-delay: 20s;
+        }
+        li:nth-child(4) {
+          background-image: url(https://source.unsplash.com/OqtafYT5kTw);
+          animation-delay: 30s;
+        }
+        li:nth-child(5) {
+          background-image: url(https://source.unsplash.com/cEUl-0DSM9s);
+          animation-delay: 40s;
+        }
+    }
+}
+
+@keyframes imageAnimation {
+    0% {
+      opacity: 0;
+      animation-timing-function: ease-in;
+   }
+    10% {
+      opacity: 1;
+      animation-timing-function: ease-out;
+    }
+    20% {
+      opacity: 1;
+    }
+    30% {
+      opacity: 0;
+    }
+};

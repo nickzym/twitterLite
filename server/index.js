@@ -26,5 +26,3 @@ console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${p
 Loadable.preloadAll().then(() => {
   app.listen(port)
 })
-
-

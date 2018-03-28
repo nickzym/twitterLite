@@ -6,6 +6,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const { ReactLoadablePlugin } =require('react-loadable/webpack') ;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
 const isServer=process.env.BUILD_TYPE==='server';
 const rootPath=path.join(__dirname,'../');
 const UglifyJsPlugin=require('uglifyjs-webpack-plugin');
@@ -13,7 +14,7 @@ const UglifyJsPlugin=require('uglifyjs-webpack-plugin');
 const prodConfig={
   context: path.join(rootPath,'./src'),
   entry: {
-    client:'./index.js',
+    client:[bootstrapEntryPoints.prod,'./index.js'],
     vendors:['react','react-dom','react-loadable','react-redux','redux','react-router-dom','react-router-redux','redux-thunk'],
   },
   output:{
@@ -67,7 +68,7 @@ const prodConfig={
         }),
       },{
         test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
-        exclude:/node_modules/,
+        // exclude:/node_modules/,
         use: {
           loader: 'url-loader',
           options: {
@@ -75,7 +76,9 @@ const prodConfig={
             name: 'img/[sha512:hash:base64:7].[ext]'
           }
         }
-      }
+    },
+    // Bootstrap 3
+    { test: /bootstrap-sass\/assets\/javascripts\//, use: 'imports-loader?jQuery=jquery' },
     ]
   },
   plugins:[

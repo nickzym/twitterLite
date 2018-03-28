@@ -1,30 +1,25 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import  '../../../assets/css/my.scss'
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import Background from './Background/index';
+import Introduction from './Introduction/index';
+import Developer from './Developer/index';
+import JoinMe from './JoinMe/index';
+import MoreInfo from './MoreInfo/index';
+
 class Home extends Component{
-  state={
-    hasError:false,
-  }
-
-  componentDidMount(){
-    console.log(this.props)
-    this.props.getHomeInfo(1)
-  }
-
-  componentDidCatch(error, info) {
-    this.setState({ hasError: true });
-
-    // 在这里可以做异常的上报
-    console.log('发送错误':error,info)
-  }
   render(){
-    let {add,count,homeInfo:{name,age}}=this.props;
+    // let {add,count,homeInfo:{name,age}}=this.props;
     return (
       <div>
-        <p>{count}</p>
-        <p>名字：{name} - 年龄：{age}</p>
-        <button style={{backgroundColor:'#eee'}} onClick={()=>add(count+1)}>增加</button>
-        <Link to='/user'>User</Link>
+        <Header />
+        <Background />
+        <Introduction />
+        <Developer />
+        <JoinMe />
+        <MoreInfo />
+        <Footer />
       </div>
     )
   }
