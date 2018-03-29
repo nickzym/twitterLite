@@ -1,19 +1,19 @@
 import React,{Component} from 'react';
 import Header from '../../../components/Header/index';
 import Footer from '../../../components/Footer/index';
-import Banner from './Banner/index';
-import ListItem from './ListItem/index';
+import SignupForm from './SignupForm/index';
 import './style.less';
 
-class TimelinePage extends Component {
+class SignupPage extends Component {
   render() {
-    const clsPrefix = 'twl-list';
+    const clsPrefix = 'twl-signup';
     return (
         <div>
             <Header />
-            <Banner />
             <div className={`${clsPrefix}--container`}>
-                <ListItem />
+                <h2>Please Sign Up : )</h2>
+                <hr />
+                <SignupForm />
             </div>
             <Footer />
         </div>
@@ -21,4 +21,4 @@ class TimelinePage extends Component {
   }
 }
 
-export default TimelinePage;
+export default SignupPage;
