@@ -6,7 +6,7 @@ import Input from 'antd/lib/input';
 import 'antd/lib/input/style/css';
 
 const Footer = () => (
-    <div>
+    <div className="footer-container">
         <footer>
             <div>
                 <span>TwitterLite 2018 made by Yiming Zhang | <a href="/restaurants">Home</a> | <a href="#">New Post</a></span>

@@ -1,21 +1,33 @@
 import React,{Component} from 'react';
 import Header from '../../../components/Header/index';
 import Footer from '../../../components/Footer/index';
-import LoginForm from './LoginForm/index';
-import Card from 'antd/lib/card';
-import 'antd/lib/card/style/css';
+import Tabs from 'antd/lib/tabs';
+import NormalTwitte from './NormalTwitte/index';
+import PremiumTwitte from './PremiumTwitte/index';
+import 'antd/lib/tabs/style/css';
 import './style.less';
 
-class newpostPage extends Component {
+const TabPane = Tabs.TabPane;
+
+class NewpostPage extends Component {
   render() {
-    const clsPrefix = 'twl-login';
+    const clsPrefix = 'twl-newpost';
     return (
         <div>
             <Header />
             <div className={`${clsPrefix}--container`}>
-                <h2>Please Login : )</h2>
+                <h2>Create a new post : )</h2>
                 <hr />
-                <LoginForm />
+                <div className="card-container">
+                    <Tabs type="card">
+                      <TabPane tab="Normal Twitte" key="1">
+                        <NormalTwitte />
+                      </TabPane>
+                      <TabPane tab="Restaurant Share" key="2">
+                        <PremiumTwitte />
+                      </TabPane>
+                    </Tabs>
+                </div>
             </div>
             <Footer />
         </div>
@@ -23,4 +35,4 @@ class newpostPage extends Component {
   }
 }
 
-export default newpostPage;
+export default NewpostPage;

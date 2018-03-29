@@ -1,13 +1,46 @@
-@cssPrefix: twl-login;
+@cssPrefix: twl-newpost;
 
 .@{cssPrefix} {
     &--container {
         position: relative;
-        height: 80vh;
         display: flex;
         justify-content: flex-start;
         flex-direction: column;
         align-items: center;
         font-family: Montserrat;
     }
+}
+
+.card-container {
+    position: relative;
+    background-color: #fafafa;
+    border-radius: 2px;
+    box-sizing: border-box;
+    padding: 2%;
+    height: 100%;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-content {
+  height: 100%;
+  margin-top: -16px;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
+  background: #fff;
+  padding: 16px;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar {
+  border-color: #fff;
+}
+
+.ant-tabs {
+    height: 100%;
+}
+
+.ant-tabs-tabpane {
+    border: 1px solid #e8e8e8;
+    border-top: 0;
+    height: 100%;
+    border-radius: 2px;
 }

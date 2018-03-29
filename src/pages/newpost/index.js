@@ -1,10 +1,10 @@
 import React from 'react';
-import newpostPage from './components/newpostPage';
+import NewpostPage from './components/newpostPage';
 
 const newpostRouter = {
     path: '/newpost',
     exact: true,
-    component: newpostPage,
+    component: NewpostPage,
     thunk: () => {}
 }
 
