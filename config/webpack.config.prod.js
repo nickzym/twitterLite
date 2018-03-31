@@ -64,7 +64,7 @@ const prodConfig={
         })
       },
       {
-        test: /\.(svg|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
+        test: /\.(svg|ttf|eot)(\?.*)?$/i,
         exclude:/node_modules/,
         use: {
           loader: 'url-loader',
@@ -73,6 +73,18 @@ const prodConfig={
             name: 'image/[sha512:hash:base64:7].[ext]'
           }
         }
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+         use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'static/media/[name].[ext]'
+            }
+          }
+        ]
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },

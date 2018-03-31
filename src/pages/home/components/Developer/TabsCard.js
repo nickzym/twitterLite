@@ -5,6 +5,7 @@ import Timeline from 'antd/lib/timeline';
 import Avatar from 'antd/lib/avatar';
 import 'antd/lib/timeline/style/css';
 import 'antd/lib/avatar/style/css';
+import './style.less';
 
 const tabList = [{
   key: 'Education',

@@ -4,6 +4,11 @@ require('babel-register')({
   presets: ['env', 'react', 'stage-0'],
   plugins: ["react-loadable/babel",'syntax-dynamic-import',"dynamic-import-node"]
 });
+require('asset-require-hook')({
+    extensions: ['jpg', 'png', 'gif','webp'],
+    limit: 10000,
+    name:'static/media/[name].[ext]'
+});
 require('dotenv').config();
 
 
