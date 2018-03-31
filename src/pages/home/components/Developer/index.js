@@ -4,7 +4,7 @@ import Card from 'antd/lib/card';
 import TabsCard from './TabsCard';
 import 'antd/lib/card/style/css';
 import './style.less';
-
+const devImg = require('./image/dev_img.png');
 const { Meta } = Card;
 
 const Developer = () => {
@@ -20,7 +20,7 @@ const Developer = () => {
                     <Card
                       hoverable
                       style={{ width: 240 }}
-                      cover={<img alt="example" src={require('./dev_img.png')} />}
+                      cover={<img alt="example" src={devImg} />}
                     >
                       <Meta
                         title="Yiming Zhang"

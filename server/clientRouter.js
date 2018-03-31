@@ -89,8 +89,7 @@ const clientRouter=async(ctx,next)=>{
     let renderedHtml=await makeup(ctx,store,createApp,html);
     ctx.body=renderedHtml
   }
-  await next()
+  await next();
 }
 
 export default clientRouter;
-

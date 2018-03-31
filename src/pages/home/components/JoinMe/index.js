@@ -13,6 +13,7 @@ const { Meta } = Card;
 
 const JoinMe = () => {
     const clsPrefix = 'twl-join';
+    console.log();
     return(
         <div className={`${clsPrefix}--container`}>
     	    <h3 className={`${clsPrefix}--title`}>Join Me</h3>
@@ -22,7 +23,7 @@ const JoinMe = () => {
             <div className={`${clsPrefix}--position`}>
                 <Card
                   style={{ width: 300 }}
-                  cover={<Image src={require('./iphone.jpg')} rounded />}
+                  cover={<Image src={require('./image/iphone.jpg')} rounded />}
                   actions={[<Input placeholder="@Email" />]}
                 >
                 <Meta
@@ -34,7 +35,7 @@ const JoinMe = () => {
 
                 <Card
                   style={{ width: 300 }}
-                  cover={<Image src={require('./pixel.jpg')} rounded />}
+                  cover={<Image src={require('./image/pixel.jpg')} rounded />}
                   actions={[<Input placeholder="@Email" />]}
                 >
                 <Meta
