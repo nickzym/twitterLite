@@ -25,6 +25,12 @@ const devConfig={
     modules:[path.resolve(rootPath, "src"), "node_modules"],
   },
   devServer:{
+    proxy: {
+        '/api': {
+            target: 'http://localhost:3002',
+            secure: false,
+        },
+    },
     contentBase:'assets',
     hot:true,
     historyApiFallback:true,
@@ -40,7 +46,7 @@ const devConfig={
           loader:'babel-loader',
           options:{
             presets: ['env', 'react', 'stage-0'],
-            plugins: ['transform-runtime', 'add-module-exports'],
+            plugins: ['transform-runtime', 'add-module-exports',["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]],
             cacheDirectory: true,
           }
         }

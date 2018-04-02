@@ -1,10 +1,5 @@
 import React,{Component} from 'react';
-import Card from 'antd/lib/card';
-import 'antd/lib/card/style/css';
-import Timeline from 'antd/lib/timeline';
-import Avatar from 'antd/lib/avatar';
-import 'antd/lib/timeline/style/css';
-import 'antd/lib/avatar/style/css';
+import { Card, Timeline, Avatar } from 'antd';
 import './style.less';
 
 const tabList = [{

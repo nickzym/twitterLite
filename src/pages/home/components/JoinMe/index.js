@@ -1,11 +1,6 @@
 import React,{Component} from 'react';
 import classNames from 'classnames';
-import Card from 'antd/lib/card';
-import Input from 'antd/lib/input';
-import Avatar from 'antd/lib/avatar';
-import 'antd/lib/card/style/css';
-import 'antd/lib/input/style/css';
-import 'antd/lib/avatar/style/css';
+import { Card, Input, Avatar } from 'antd';
 import { Image } from 'react-bootstrap';
 import './style.less';
 

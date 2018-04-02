@@ -1,6 +1,6 @@
 import timelinePage from '../components/timelinePage';
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as actions  from '../../../store/actions/home';
 
 const mapStateToProps = state => ({

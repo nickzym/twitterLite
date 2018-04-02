@@ -1,8 +1,5 @@
 import React,{Component} from 'react';
-import Modal from 'antd/lib/modal';
-import Button from 'antd/lib/button';
-import 'antd/lib/modal/style/css';
-import 'antd/lib/button/style/css';
+import { Modal, Button } from 'antd';
 
 class ModalPlus extends React.Component {
     constructor(props) {

@@ -2,8 +2,7 @@ import React,{Component} from 'react';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import './style.less';
 import { Icon } from 'react-fa';
-import Input from 'antd/lib/input';
-import 'antd/lib/input/style/css';
+import { Input } from 'antd';
 
 const Footer = () => (
     <div className="footer-container">

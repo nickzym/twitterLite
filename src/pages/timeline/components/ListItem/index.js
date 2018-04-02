@@ -1,14 +1,5 @@
 import React,{Component} from 'react';
-import List from 'antd/lib/list';
-import Avatar from 'antd/lib/avatar';
-import Icon from 'antd/lib/icon';
-import Collapse from 'antd/lib/collapse';
-import Input from 'antd/lib/input';
-import 'antd/lib/list/style/css';
-import 'antd/lib/avatar/style/css';
-import 'antd/lib/icon/style/css';
-import 'antd/lib/collapse/style/css';
-import 'antd/lib/input/style/css';
+import { List, Avatar, Icon, Collapse, Input } from 'antd';
 
 const Panel = Collapse.Panel;
 const { TextArea } = Input;

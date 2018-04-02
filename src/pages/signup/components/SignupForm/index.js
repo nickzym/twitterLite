@@ -1,24 +1,18 @@
 import React,{Component} from 'react';
-import Form from 'antd/lib/form';
-import Icon from 'antd/lib/icon';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Checkbox from 'antd/lib/checkbox';
-import Tooltip from 'antd/lib/tooltip';
-import Upload from 'antd/lib/upload';
-// import Portal from '../../../../components/Portal/index';
+import { connect } from 'react-redux';
+import { Form, Icon, Input, Button, Checkbox, Tooltip, Upload } from 'antd';
 import ModalPlus from '../../../../components/ModalPlus/index';
-import 'antd/lib/form/style/css';
-import 'antd/lib/icon/style/css';
-import 'antd/lib/input/style/css';
-import 'antd/lib/button/style/css';
-import 'antd/lib/checkbox/style/css';
-import 'antd/lib/tooltip/style/css';
-import 'antd/lib/auto-complete/style/css';
-import 'antd/lib/upload/style/css';
-
+import { authUser } from '../../../../store/actions/auth';
+import { success, error, warning } from '../../../../components/Message/index';
 
 const FormItem = Form.Item;
+
+const mapStateToProps = state => (
+    {
+        currentUser: state.currentUser,
+        errors: state.errors
+    }
+)
 
 class RegistrationForm extends React.Component {
     constructor(props) {
@@ -35,6 +29,19 @@ class RegistrationForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                if (values.agreement === undefined || values.agreement === false) {
+                    warning('Check the agreement!');
+                } else {
+                    // this.props.authUser('signup', values)
+                    // .then(() => {
+                    //     success('Signup successfully!');
+                    // })
+                    // .catch(() => {
+                    //     error(this.props.errors.message);
+                    // });
+                    
+
+                }
             }
         });
     }
@@ -76,6 +83,7 @@ class RegistrationForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { showAgree } = this.state;
+        const errorMessage = this.props.errors.message;
 
         const formItemLayout = {
             labelCol: {
@@ -160,7 +168,7 @@ class RegistrationForm extends React.Component {
                     )}
                     style={{fontFamily: 'Montserrat'}}
                   >
-                    {getFieldDecorator('nickname', {
+                    {getFieldDecorator('username', {
                       rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
                     })(
                       <Input />
@@ -204,6 +212,6 @@ class RegistrationForm extends React.Component {
     }
 }
 
-const SignupForm = Form.create()(RegistrationForm);
+const SignupForm = Form.create()(connect(mapStateToProps, { authUser })(RegistrationForm));
 
 export default SignupForm;

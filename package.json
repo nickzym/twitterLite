@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hotOnly --progress --config ./config/webpack.config.dev.js ",
-    "build": "cross-env NODE_ENV=pr webpack --progress -p --config ./config/webpack.config.prod.js",
+    "build": "cross-env NODE_ENV=production webpack --progress -p --config ./config/webpack.config.prod.js",
     "server": "cross-env NODE_ENV=production nodemon ./server/index.js --watch config --watch server",
     "dev:server": "npm run build && npm run server"
   },
@@ -53,6 +53,8 @@
   "dependencies": {
     "antd": "^3.3.3",
     "asset-require-hook": "^1.2.0",
+    "axios": "^0.18.0",
+    "babel-plugin-import": "^1.6.7",
     "bcrypt": "^1.0.3",
     "bootstrap-loader": "^2.2.0",
     "classnames": "^2.2.5",

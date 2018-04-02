@@ -1,15 +1,5 @@
 import React,{Component} from 'react';
-import Form from 'antd/lib/form';
-import Icon from 'antd/lib/icon';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Checkbox from 'antd/lib/checkbox';
-import Upload from 'antd/lib/upload';
-import 'antd/lib/form/style/css';
-import 'antd/lib/icon/style/css';
-import 'antd/lib/input/style/css';
-import 'antd/lib/button/style/css';
-import 'antd/lib/checkbox/style/css';
+import { Form, Icon, Input, Button, Checkbox, Upload } from 'antd';
 import './style.less';
 
 const FormItem = Form.Item;

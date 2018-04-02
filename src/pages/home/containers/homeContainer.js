@@ -4,8 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as actions  from '../../../store/actions/home';
 // 这里的state要看清楚是store的state
 const mapStateToProps = state => ({
-  count: state.HomeReducer.count,
-  homeInfo: state.HomeReducer.homeInfo
+ currentUser: state.currentUser
 });
 
 const mapDispatchToProps = dispatch =>

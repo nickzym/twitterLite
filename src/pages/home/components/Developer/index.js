@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import classNames from 'classnames';
-import Card from 'antd/lib/card';
+import { Card } from 'antd';
 import TabsCard from './TabsCard';
-import 'antd/lib/card/style/css';
 import './style.less';
 const devImg = require('./image/dev_img.png');
 const { Meta } = Card;

@@ -9,15 +9,14 @@ exports.registerUser = async (ctx, next) => {
         //create a token
         // process.env.__
         let user = await db.User.create(ctx.request.body);
-        let {id, username, email, profileImageUrl } = user;
+
+        let {username, email, password, profileImageUrl } = user;
         let token = jwt.sign({
-            id,
             username,
             email,
-            profileImageUrl
+            password
         }, process.env.SECRET_KEY);
         ctx.body = {
-            id,
             username,
             email,
             profileImageUrl,
@@ -56,6 +55,14 @@ exports.loginUser = async (ctx, next) => {
         let user = await db.User.findOne({
             username: usernameReq
         });
+
+        if (!user) {
+            ctx.body = {
+                error: {
+                    message: "Invalid username or password"
+                }
+            };
+        }
 
         let {id, username, email, profileImageUrl } = user;
         let isMatch = await user.comparePassword(passwordReq);

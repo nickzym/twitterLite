@@ -4,11 +4,15 @@ import createHistory from 'history/createMemoryHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import rootReducer from '../store/reducers/index.js';
 
-const routerReducers=routerMiddleware(createHistory());//路由
+const routerReducers = routerMiddleware(createHistory());//路由
 //const composeEnhancers = process.env.NODE_ENV == 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
-const middleware=[thunkMiddleware,routerReducers];
+const middleware = [thunkMiddleware,routerReducers];
 
-let configureStore=(initialState)=>createStore(rootReducer,initialState,compose(applyMiddleware(...middleware)));
+let configureStore = (initialState) => createStore(
+    rootReducer,
+    initialState,
+    compose(applyMiddleware(...middleware))
+);
 
 export default configureStore;
