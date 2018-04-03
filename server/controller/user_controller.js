@@ -15,14 +15,15 @@ exports.registerUser = async (ctx, next) => {
             fileType: 'album',
             path: serverFilePath
         });
-        console.log(res);
+
         let user = await db.User.create({
             email: res.info.email,
             username: res.info.username,
-            password: res.info.password
+            password: res.info.password,
+            avatar: res.avatar
         });
 
-        let {username, email, password, profileImageUrl } = user;
+        let {username, email, password, avatar } = user;
         let token = jwt.sign({
             username,
             email,
@@ -31,7 +32,7 @@ exports.registerUser = async (ctx, next) => {
         ctx.body = {
             username,
             email,
-            profileImageUrl,
+            avatar,
             token
         };
     } catch (err) {

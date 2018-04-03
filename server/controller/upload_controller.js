@@ -4,6 +4,7 @@ const os = require('os');
 const fs = require('fs');
 const Busboy = require('busboy');
 import asyncBusboy from 'async-busboy';
+const Storage = require('@google-cloud/storage');
 
 /**
  * 同步创建文件目录
@@ -31,6 +32,26 @@ function getSuffixName( fileName ) {
   return nameList[nameList.length - 1]
 }
 
+async function uploadFileToGoogle(saveTo, fileName) {
+    const storage = new Storage();
+    return new Promise((resolve, reject) => {
+        storage
+            .bucket('twitter-avatar')
+            .upload(saveTo)
+            .then(results => {
+                const url = `http://storage.googleapis.com/twitter-avatar/${fileName}`;
+                console.log(`${fileName} uploaded to twitter-avatar.`);
+                console.log(url);
+                resolve(url);
+            })
+            .catch(err => {
+                console.error('Google storage error:', err);
+                reject(err);
+            })
+    });
+}
+
+
 /**
  * 上传文件
  * @param  {object} ctx     koa上下文
@@ -46,7 +67,7 @@ async function uploadFile( ctx, options) {
   let fileType = options.fileType || 'common'
   let filePath = path.join( options.path,  fileType)
   let mkdirResult = mkdirsSync( filePath )
-  console.log('file is uploading...')
+  console.log('file is uploading...');
 
   return new Promise((resolve, reject) => {
       asyncBusboy(ctx.req).then(function(formData) {
@@ -61,12 +82,18 @@ async function uploadFile( ctx, options) {
           let _uploadFilePath = path.join( filePath, fileName );
           let saveTo = path.join(_uploadFilePath);
 
-          file.pipe(fs.createWriteStream(saveTo))
+          file.pipe(fs.createWriteStream(saveTo));
           // 文件写入事件结束
           file.on('end', function() {
-            result.avatar = `/${fileType}/${fileName}`;
-            console.log('file upload successfully!');
-            resolve(result);
+            uploadFileToGoogle(saveTo, fileName)
+            .then(res => {
+                result.avatar = res;
+                console.log('file upload successfully!');
+                resolve(result);
+            })
+            .catch(err => {
+                console.error('Google storage error:', err);
+            });
         });
       }, function(error) {
           reject(error);
@@ -75,7 +102,6 @@ async function uploadFile( ctx, options) {
   });
 }
 
-
 module.exports =  {
-  uploadFile
+  uploadFile,
 }
