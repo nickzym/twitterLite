@@ -53,10 +53,12 @@
   "dependencies": {
     "antd": "^3.3.3",
     "asset-require-hook": "^1.2.0",
+    "async-busboy": "^0.6.2",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.6.7",
     "bcrypt": "^1.0.3",
     "bootstrap-loader": "^2.2.0",
+    "busboy": "^0.2.14",
     "classnames": "^2.2.5",
     "dotenv": "^5.0.1",
     "google-fonts-webpack-plugin": "^0.4.3",

@@ -35,7 +35,6 @@ app.use(staticCache (path.resolve(__dirname,'../dist'),{
   gzip:true
 }));
 
-
 // middlewares
 app.use(bodyParser({
   enableTypes:['json', 'form', 'text']

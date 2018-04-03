@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, Button, Checkbox, Tooltip, Upload } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Tooltip, Upload, Modal } from 'antd';
 import ModalPlus from '../../../../components/ModalPlus/index';
 import { authUser } from '../../../../store/actions/auth';
 import { success, error, warning } from '../../../../components/Message/index';
@@ -20,6 +20,8 @@ class RegistrationForm extends React.Component {
         this.state = {
           confirmDirty: false,
           showAgree: false,
+          file: null,
+          avatarUrl: null,
         };
         this.showAgreement = this.showAgreement.bind(this);
     }
@@ -32,23 +34,26 @@ class RegistrationForm extends React.Component {
                 if (values.agreement === undefined || values.agreement === false) {
                     warning('Check the agreement!');
                 } else {
-                    // this.props.authUser('signup', values)
-                    // .then(() => {
-                    //     success('Signup successfully!');
-                    // })
-                    // .catch(() => {
-                    //     error(this.props.errors.message);
-                    // });
-                    
-
+                    var formData = new FormData();
+                    formData.append("file", this.state.file);
+                    formData.append("field", JSON.stringify(values));
+                    this.props.authUser('signup', formData)
+                    .then(() => {
+                        success('Signup successfully!');
+                    })
+                    .catch(() => {
+                        error(this.props.errors.message);
+                    });
                 }
             }
         });
     }
+
     handleConfirmBlur = (e) => {
         const value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
+
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
@@ -74,7 +79,6 @@ class RegistrationForm extends React.Component {
     }
 
     showAgreement() {
-        console.log('hahah');
         this.setState({
             showAgree: !this.state.showAgree,
         })
@@ -106,6 +110,30 @@ class RegistrationForm extends React.Component {
               offset: 8,
             },
           },
+        };
+
+
+        const props = {
+            action: '/api/upload',
+            showUploadList: false,
+            beforeUpload: (file) => {
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png';
+                if (!isJPG) {
+                    error('You can only upload JPG/JPEG/PNG file!');
+                }
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    error('Image must smaller than 2MB!');
+                }
+
+                if (isJPG && isLt2M) {
+                    this.setState({
+                        file,
+                        avatarUrl: URL.createObjectURL(file)
+                    });
+                }
+                return false;
+            },
         };
 
         return (
@@ -183,11 +211,18 @@ class RegistrationForm extends React.Component {
                       valuePropName: 'fileList',
                       getValueFromEvent: this.normFile,
                     })(
-                      <Upload name="logo" action="/upload.do" listType="picture">
-                        <Button>
-                          <Icon type="upload" /> Click to upload
-                        </Button>
-                      </Upload>
+                    <div>
+                        <Upload {...props} >
+                          <Button>
+                            <Icon type="upload" /> Click to upload
+                          </Button>
+                        </Upload>
+                            {
+                                this.state.avatarUrl === null ? null :
+                                <div style={{backgroundImage: `url(${this.state.avatarUrl})`, backgroundSize: '100%', width: '100px', height: '100px', position:'relative', borderRadius: '4px'}}/>
+                                // <img style={{width: '50', height: '50'}} alt="example" style={{ width: '100%' }} src={this.state.avatarUrl} />
+                            }
+                    </div>
                     )}
                   </FormItem>
                   <FormItem {...tailFormItemLayout} style={{fontFamily: 'Montserrat'}}>

@@ -1,6 +1,8 @@
 const bodyParser = require('koa-bodyparser');
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const { uploadFile } = require('./upload_controller');
+const path = require('path');
 
 //register a user
 exports.registerUser = async (ctx, next) => {
@@ -8,7 +10,17 @@ exports.registerUser = async (ctx, next) => {
         //create a user
         //create a token
         // process.env.__
-        let user = await db.User.create(ctx.request.body);
+        let serverFilePath = path.join(__dirname, 'uploads');
+        const res = await uploadFile(ctx, {
+            fileType: 'album',
+            path: serverFilePath
+        });
+        console.log(res);
+        let user = await db.User.create({
+            email: res.info.email,
+            username: res.info.username,
+            password: res.info.password
+        });
 
         let {username, email, password, profileImageUrl } = user;
         let token = jwt.sign({
