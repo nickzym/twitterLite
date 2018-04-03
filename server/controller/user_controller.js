@@ -15,7 +15,7 @@ exports.registerUser = async (ctx, next) => {
             fileType: 'album',
             path: serverFilePath
         });
-
+        
         let user = await db.User.create({
             email: res.info.email,
             username: res.info.username,
@@ -77,7 +77,7 @@ exports.loginUser = async (ctx, next) => {
             };
         }
 
-        let {id, username, email, profileImageUrl } = user;
+        let {id, username, email, avatar } = user;
         let isMatch = await user.comparePassword(passwordReq);
 
         if (isMatch) {
@@ -85,13 +85,13 @@ exports.loginUser = async (ctx, next) => {
                 id,
                 username,
                 email,
-                profileImageUrl
+                avatar
             }, process.env.SECRET_KEY);
             ctx.body = {
                 id,
                 username,
                 email,
-                profileImageUrl,
+                avatar,
                 token
             };
         } else {

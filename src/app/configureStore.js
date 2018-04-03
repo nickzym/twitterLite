@@ -1,4 +1,6 @@
 import {createStore, applyMiddleware,compose} from "redux";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import thunkMiddleware from "redux-thunk";
 import createHistory from 'history/createMemoryHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux'
@@ -9,8 +11,16 @@ const routerReducers = routerMiddleware(createHistory());//路由
 
 const middleware = [thunkMiddleware,routerReducers];
 
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 let configureStore = (initialState) => createStore(
-    rootReducer,
+    persistedReducer,
     initialState,
     compose(applyMiddleware(...middleware))
 );

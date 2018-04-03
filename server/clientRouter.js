@@ -5,17 +5,16 @@ import { getBundles } from 'react-loadable/webpack';
 import stats from '../dist/react-loadable.json';
 import Helmet from 'react-helmet';
 import {matchPath} from 'react-router-dom';
-
 import { matchRoutes } from 'react-router-config';
 import client from '../src/app/index.js';
 import path from 'path';
-import fs from 'fs'
-let configureStore=client.configureStore;
-let createApp=client.createApp;
-let routesConfig=client.routesConfig;
+import fs from 'fs';
+let configureStore = client.configureStore;
+let createApp = client.createApp;
+let routesConfig = client.routesConfig;
 
 const createStore=(configureStore)=>{
-  let store=configureStore()
+  let store = configureStore();
   return store;
 }
 
@@ -44,7 +43,7 @@ const getMatch=(routesArray, url)=>{
   }))
 }
 
-const makeup=(ctx,store,createApp,html)=>{
+const makeup=(ctx, store,createApp, html)=>{
   let initState=store.getState();
   let history=createHistory({initialEntries:[ctx.req.url]});
 
@@ -69,7 +68,7 @@ const makeup=(ctx,store,createApp,html)=>{
 
 const clientRouter=async(ctx,next)=>{
   let html=fs.readFileSync(path.join(path.resolve(__dirname,'../dist'),'index.html'),'utf-8');
-  let store=createStore(configureStore);
+  let store = createStore(configureStore);
   let pureRoutes='';
   // 这段逻辑是用于修复路径上有问号和参数时的匹配bug
   if (ctx.req.url.indexOf('?')>0) {
@@ -86,6 +85,7 @@ const clientRouter=async(ctx,next)=>{
 
   let isMatch=getMatch(routesConfig,pureRoutes);
   if(isMatch){
+      console.log(persistor);
     let renderedHtml=await makeup(ctx,store,createApp,html);
     ctx.body=renderedHtml
   }

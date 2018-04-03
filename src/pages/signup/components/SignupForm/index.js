@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, Upload, Modal } from 'antd';
 import ModalPlus from '../../../../components/ModalPlus/index';
-import { authUser } from '../../../../store/actions/auth';
+import { authUser, removeError } from '../../../../store/actions/auth';
 import { success, error, warning } from '../../../../components/Message/index';
 
 const FormItem = Form.Item;
@@ -40,6 +40,9 @@ class RegistrationForm extends React.Component {
                     this.props.authUser('signup', formData)
                     .then(() => {
                         success('Signup successfully!');
+                        // setTimeout(function() {
+                        //     window.location.href = '/';
+                        // }, 2000);
                     })
                     .catch(() => {
                         error(this.props.errors.message);
@@ -111,7 +114,6 @@ class RegistrationForm extends React.Component {
             },
           },
         };
-
 
         const props = {
             action: '/api/upload',
@@ -247,6 +249,6 @@ class RegistrationForm extends React.Component {
     }
 }
 
-const SignupForm = Form.create()(connect(mapStateToProps, { authUser })(RegistrationForm));
+const SignupForm = Form.create()(connect(mapStateToProps, { authUser, removeError })(RegistrationForm));
 
 export default SignupForm;

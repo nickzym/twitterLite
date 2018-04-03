@@ -67,7 +67,7 @@ async function uploadFile( ctx, options) {
   let fileType = options.fileType || 'common'
   let filePath = path.join( options.path,  fileType)
   let mkdirResult = mkdirsSync( filePath )
-  console.log('file is uploading...');
+
 
   return new Promise((resolve, reject) => {
       asyncBusboy(ctx.req).then(function(formData) {
@@ -78,26 +78,32 @@ async function uploadFile( ctx, options) {
           let file = formData.files[0];
           let field = formData.fields;
           result.info = JSON.parse(field.field);
-          let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(file.filename);
-          let _uploadFilePath = path.join( filePath, fileName );
-          let saveTo = path.join(_uploadFilePath);
-
-          file.pipe(fs.createWriteStream(saveTo));
-          // 文件写入事件结束
-          file.on('end', function() {
-            uploadFileToGoogle(saveTo, fileName)
-            .then(res => {
-                result.avatar = res;
-                console.log('file upload successfully!');
-                resolve(result);
-            })
-            .catch(err => {
-                console.error('Google storage error:', err);
-            });
-        });
+          if (file) {
+              let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(file.filename);
+              let _uploadFilePath = path.join( filePath, fileName );
+              let saveTo = path.join(_uploadFilePath);
+              console.log('file is uploading...');
+              file.pipe(fs.createWriteStream(saveTo));
+              // 文件写入事件结束
+              file.on('end', function() {
+                uploadFileToGoogle(saveTo, fileName)
+                .then(res => {
+                    result.avatar = res;
+                    console.log('file upload successfully!');
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error('Google storage error:', err);
+                });
+              });
+          } else {
+              resolve(result);
+          }
       }, function(error) {
           reject(error);
-          console.log(error);
+      })
+      .catch(err => {
+          reject(err);
       });
   });
 }
