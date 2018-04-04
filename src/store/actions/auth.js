@@ -25,3 +25,11 @@ export const authUser = (type, userData) => dispatch => {
         });
     });
 }
+
+export const logOut = () => dispatch => {
+    return new Promise((resolve, reject) => {
+        localStorage.clear();
+        dispatch(setCurrentUser({}));
+        resolve();
+    });
+}

@@ -40,9 +40,9 @@ class RegistrationForm extends React.Component {
                     this.props.authUser('signup', formData)
                     .then(() => {
                         success('Signup successfully!');
-                        // setTimeout(function() {
-                        //     window.location.href = '/';
-                        // }, 2000);
+                        setTimeout(function() {
+                            window.location.href = '/';
+                        }, 2000);
                     })
                     .catch(() => {
                         error(this.props.errors.message);

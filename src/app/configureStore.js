@@ -7,10 +7,19 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import rootReducer from '../store/reducers/index.js';
 
 const routerReducers = routerMiddleware(createHistory());//路由
-//const composeEnhancers = process.env.NODE_ENV == 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-
 const middleware = [thunkMiddleware,routerReducers];
 
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(...middleware),
+  // other store enhancers if any
+);
 
 const persistConfig = {
   key: 'root',
@@ -22,7 +31,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 let configureStore = (initialState) => createStore(
     persistedReducer,
     initialState,
-    compose(applyMiddleware(...middleware))
+    enhancer
 );
 
 export default configureStore;

@@ -30,7 +30,10 @@ class NormalLoginForm extends React.Component {
             console.log('Received values of form: ', values);
             this.props.authUser('login', values)
             .then(() => {
-                success("LOGGED IN!");
+                success('Login successfully!');
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 2000);
             })
             .catch(() => {
                 error(this.props.errors.message);
