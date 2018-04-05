@@ -1,16 +1,17 @@
 import timelinePage from '../components/timelinePage';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as actions  from '../../../store/actions/home';
+// import * as actions  from '../../../store/actions/home';
+import { fetchTwittes } from '../../../store/actions/twittes';
 
 const mapStateToProps = state => ({
-  count: state.HomeReducer.count
+  twittes: state.twittes
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      add: actions.add
+      fetchTwittes
     },
     dispatch
   );

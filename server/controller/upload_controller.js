@@ -2,8 +2,6 @@ const inspect = require('util').inspect;
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const Busboy = require('busboy');
-import asyncBusboy from 'async-busboy';
 const Storage = require('@google-cloud/storage');
 
 /**
@@ -32,16 +30,15 @@ function getSuffixName( fileName ) {
   return nameList[nameList.length - 1]
 }
 
-async function uploadFileToGoogle(saveTo, fileName) {
+async function uploadFileToGoogle(saveTo, fileName, bucketName) {
     const storage = new Storage();
     return new Promise((resolve, reject) => {
         storage
-            .bucket('twitter-avatar')
+            .bucket(`twitter-${bucketName}`)
             .upload(saveTo)
             .then(results => {
-                const url = `http://storage.googleapis.com/twitter-avatar/${fileName}`;
-                console.log(`${fileName} uploaded to twitter-avatar.`);
-                console.log(url);
+                const url = `http://storage.googleapis.com/twitter-${bucketName}/${fileName}`;
+                console.log(`${fileName} uploaded to twitter-${bucketName}.`);
                 resolve(url);
             })
             .catch(err => {
@@ -59,53 +56,39 @@ async function uploadFileToGoogle(saveTo, fileName) {
  * @return {promise}
  */
 async function uploadFile( ctx, options) {
-  let req = ctx.req
-  let res = ctx.res
-  let busboy = new Busboy({headers: req.headers});
+    let req = ctx.request;
 
-  // 获取类型
-  let fileType = options.fileType || 'common'
-  let filePath = path.join( options.path,  fileType)
-  let mkdirResult = mkdirsSync( filePath )
+    // 获取类型
+    let fileType = options.fileType || 'common'
+    let filePath = path.join( options.path,  fileType)
+    let mkdirResult = mkdirsSync( filePath )
+    return new Promise((resolve, reject) => {
+        let result = {
+            avatar: '',
+            info: {},
+        };
+        let file = req.body.files.file;
+        let field = JSON.parse(req.body.fields.field);
+        if (file) {
+            let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(file.name);
+            let _uploadFilePath = path.join( filePath, fileName );
+            let saveTo = path.join(_uploadFilePath);
+            console.log('file is uploading...');
+            const reader = fs.createReadStream(file.path);
+            const stream = fs.createWriteStream(saveTo);
+            reader.pipe(stream);
+            // 文件写入事件结束
 
-
-  return new Promise((resolve, reject) => {
-      asyncBusboy(ctx.req).then(function(formData) {
-          let result = {
-              avatar: '',
-              info: {},
-          };
-          let file = formData.files[0];
-          let field = formData.fields;
-          result.info = JSON.parse(field.field);
-          if (file) {
-              let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(file.filename);
-              let _uploadFilePath = path.join( filePath, fileName );
-              let saveTo = path.join(_uploadFilePath);
-              console.log('file is uploading...');
-              file.pipe(fs.createWriteStream(saveTo));
-              // 文件写入事件结束
-              file.on('end', function() {
-                uploadFileToGoogle(saveTo, fileName)
-                .then(res => {
-                    result.avatar = res;
-                    console.log('file upload successfully!');
-                    resolve(result);
-                })
-                .catch(err => {
-                    console.error('Google storage error:', err);
-                });
-              });
-          } else {
-              resolve(result);
-          }
-      }, function(error) {
-          reject(error);
-      })
-      .catch(err => {
-          reject(err);
-      });
-  });
+            uploadFileToGoogle(saveTo, fileName, fileType)
+            .then(res => {
+                console.log('file upload successfully!');
+                resolve(res);
+            })
+            .catch(err => {
+                console.error('Google storage error:', err);
+            });
+        }
+    });
 }
 
 module.exports =  {

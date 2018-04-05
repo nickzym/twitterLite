@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
-import { List, Avatar, Icon, Collapse, Input } from 'antd';
+import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
+import Image from 'react-image-resizer';
 
 const Panel = Collapse.Panel;
 const { TextArea } = Input;
@@ -53,10 +54,24 @@ class ListItem extends Component {
         super(props);
         this.state = {
             messageShow: new Set(),
+            loading: false,
+            loadingMore: false,
+            showLoadingMore: true,
+            twitte: [],
+            start: 0,
+            num: 10,
         }
         this.handleClick = this.handleClick.bind(this);
     }
-
+    componentWillMount() {
+        this.props.fetchTwittes(0, 10)
+        .then(res => {
+            console.log(res);
+            this.setState({
+                twitte: res
+            });
+        })
+    }
     handleClick(index) {
         const messageShow = this.state.messageShow;
         if (messageShow.has(index)) {
@@ -69,27 +84,54 @@ class ListItem extends Component {
         });
     }
 
+    onLoadMore = () => {
+        this.setState({
+          loadingMore: true,
+        });
+        this.props.fetchTwittes(this.state.start+1, this.state.num)
+        .then(res => {
+            this.setState({
+                twitte: this.state.twitte.concat(res),
+                loadingMore: false,
+                start: this.state.start + 1
+            }, () => {
+                // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
+                // In real scene, you can using public method of react-virtualized:
+                // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
+                window.dispatchEvent(new Event('resize'));
+            });
+        })
+    }
+
     render() {
         const { messageShow } = this.state;
+        const { loading, loadingMore, showLoadingMore, data } = this.state;
+        const loadMore = showLoadingMore ? (
+          <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
+            {loadingMore && <Spin />}
+            {!loadingMore && <Button onClick={this.onLoadMore}>loading more</Button>}
+          </div>
+        ) : null;
+        const defaultImg = "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png";
         return(
             <List
                 itemLayout="vertical"
                 size="middle"
-                pagination={pagination}
-                dataSource={listData}
+                loadMore={loadMore}
+                dataSource={this.state.twitte}
                 renderItem={(item, index) => (
                     <div>
                         <List.Item
                             key={item.title}
-                            actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <span onClick={() => this.handleClick(index)}><IconText type="message" text="2" /></span>]}
-                            extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                            actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <span onClick={() => this.handleClick(index)}><IconText type="message" text={item.comments.length} /></span>]}
+                            extra={<div className="twl-timeline-border"><Image width={200} height={150} alt="logo" src={item.image} /></div>}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src={item.avatar} />}
                                 title={<a href={item.href}>{item.title}</a>}
-                                description={item.description}
+                                description={item.author ? `@${item.author.username}` : 'No one'}
+                                avatar = {<Avatar size="large" src={item.author ? item.author.avatar : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />}
                             />
-                            {item.content}
+                            {item.description}
                             </List.Item>
                             {
                                 messageShow.has(index) ? <Message /> : null

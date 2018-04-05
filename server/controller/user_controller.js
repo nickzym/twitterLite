@@ -10,20 +10,21 @@ exports.registerUser = async (ctx, next) => {
         //create a user
         //create a token
         // process.env.__
+        let field = JSON.parse(ctx.request.body.fields.field);
         let serverFilePath = path.join(__dirname, 'uploads');
         const res = await uploadFile(ctx, {
-            fileType: 'album',
+            fileType: 'avatar',
             path: serverFilePath
         });
-        
+
         let user = await db.User.create({
-            email: res.info.email,
-            username: res.info.username,
-            password: res.info.password,
-            avatar: res.avatar
+            email: field.email,
+            username: field.username,
+            password: field.password,
+            avatar: res
         });
 
-        let {username, email, password, avatar } = user;
+        let {username, email, password, avatar, id } = user;
         let token = jwt.sign({
             username,
             email,
@@ -33,6 +34,7 @@ exports.registerUser = async (ctx, next) => {
             username,
             email,
             avatar,
+            id,
             token
         };
     } catch (err) {

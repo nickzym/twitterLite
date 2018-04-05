@@ -4,17 +4,18 @@ import ListItem from './ListItem/index';
 import './style.less';
 
 class TimelinePage extends Component {
-  render() {
-    const clsPrefix = 'twl-list';
-    return (
-        <div>
-            <Banner />
-            <div className={`${clsPrefix}--container`}>
-                <ListItem />
+    render() {
+        const clsPrefix = 'twl-list';
+        const { twittes } = this.props;
+        return (
+            <div>
+                <Banner />
+                <div className={`${clsPrefix}--container`}>
+                    <ListItem fetchTwittes={this.props.fetchTwittes}/>
+                </div>
             </div>
-        </div>
-    );
-  }
+        );
+    }
 }
 
 export default TimelinePage;

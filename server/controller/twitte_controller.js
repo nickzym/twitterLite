@@ -1,32 +1,44 @@
 const db = require("../models");
+const { uploadFile } = require('./upload_controller');
+const path = require('path');
 
 exports.createTwitte = async function(ctx, next){
     try {
-        const isPremium = ctx.request.body.isPremium || false;
+        let field = JSON.parse(ctx.request.body.fields.field);
+        let serverFilePath = path.join(__dirname, 'uploads');
+        const isPremium = field.isPremium || false;
         let twitte;
         if (isPremium) {
-            const { title, description, image, price, location, lat, lng, author } = ctx.request.body;
-            twitte = await db.Twitte.create({
-                title,
-                description,
-                image,
-                isPremium: true,
-                price,
-                location,
-                lat,
-                lng,
-                author,
+            const { title, description, price, location, author } = ctx.request.body;
+            const res = await uploadFile(ctx, {
+                fileType: 'twitte',
+                path: serverFilePath
             });
-        } else {
-            const { title, description, image, author } = ctx.request.body;
+            console.log(field);
             twitte = await db.Twitte.create({
-                title,
-                description,
-                image,
-                author,
+                title: field.title,
+                description: field.title,
+                image: res,
+                isPremium: true,
+                price: field.price,
+                location: field.location,
+                author: field.author
+            });
+            console.log(twitte);
+        } else {
+            const res = await uploadFile(ctx, {
+                fileType: 'twitte',
+                path: serverFilePath
+            });
+            twitte = await db.Twitte.create({
+                title: field.title,
+                description: field.description,
+                image: res,
+                isPremium: field.isPremium || false,
+                author: field.author
             });
         }
-        let foundAuthor = await db.User.findById(ctx.request.body.author);
+        let foundAuthor = await db.User.findById(field.author);
         foundAuthor.twittes.push(twitte.id);
         await foundAuthor.save();
         let foundTwitte = await db.Twitte.findById(twitte._id).populate("author", {
@@ -64,9 +76,13 @@ exports.deleteTwitte = async function(ctx, next){
 
 // /api/twitte/getalltwittes
 exports.getAllTwittes = async function(ctx, next) {
+    const start = ctx.query.start;
+    const num = ctx.query.num;
     try {
         let twittes = await db.Twitte.find()
         .sort({createAt: "desc"})
+        .limit(Number(num))
+        .skip(num * start)
         .populate("author", {
             username: true,
             avatar: true,

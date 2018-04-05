@@ -32,8 +32,8 @@ class Header extends Component {
                 window.location.href = '/';
             }, 2000);
         })
-        .catch(() => {
-            error('Something went wrong');
+        .catch(err => {
+            error(err);
         })
     }
 

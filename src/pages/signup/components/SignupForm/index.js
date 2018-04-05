@@ -37,6 +37,7 @@ class RegistrationForm extends React.Component {
                     var formData = new FormData();
                     formData.append("file", this.state.file);
                     formData.append("field", JSON.stringify(values));
+                    console.log(values);
                     this.props.authUser('signup', formData)
                     .then(() => {
                         success('Signup successfully!');

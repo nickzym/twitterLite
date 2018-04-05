@@ -7,10 +7,8 @@ const twitteSchema = new mongoose.Schema({
     description: {type: String, required: true},
     image: String,
     isPremium: {type: Boolean, default: false},
-    price: String,
+    price: Number,
     location: String,
-    lat: Number,
-    lng: Number,
     createAt: {type: Date, default: Date.now},
     author: {
         type: mongoose.Schema.Types.ObjectId,

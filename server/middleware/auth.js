@@ -30,7 +30,7 @@ exports.ensureCorrectUser = async function(ctx, next) {
     try {
         const token = ctx.headers.authorization.split(" ")[1];
         await jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
-            if (decoded && (decoded.id === ctx.request.query.author || decoded.id === ctx.request.body.author)) {
+            if (decoded && (decoded.id === ctx.request.query.author || decoded.id === ctx.request.body.author || decoded.id === JSON.parse(ctx.request.body.fields.field).author)) {
                 return next();
             } else {
                 ctx.body = {
