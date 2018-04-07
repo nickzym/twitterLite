@@ -6,12 +6,16 @@ import './style.less';
 class TimelinePage extends Component {
     render() {
         const clsPrefix = 'twl-list';
-        const { twittes } = this.props;
         return (
             <div>
                 <Banner />
                 <div className={`${clsPrefix}--container`}>
-                    <ListItem fetchTwittes={this.props.fetchTwittes}/>
+                    <ListItem
+                        fetchTwittes={this.props.fetchTwittes}
+                        currentUser={this.props.currentUser}
+                        deleteTwitte={this.props.deleteTwitte}
+                        twittes={this.props.twittes}
+                    />
                 </div>
             </div>
         );

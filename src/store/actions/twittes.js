@@ -7,15 +7,28 @@ export const loadTwittes = twittes => ({
     twittes
 });
 
-export const fetchTwittes = (start, num) => dispatch => {
-    return new Promise((resolve, rejectd) => {
+export const removeTwitte = twittes => ({
+    type: REMOVE_TWITTE,
+    twittes
+});
+
+const filterTwitte = (twittes, twitte) => {
+    return twittes.filter((value) => {
+        return value._id !== twitte._id
+    });
+}
+
+export const fetchTwittes = (start, num, currentTwittes) => dispatch => {
+    return new Promise((resolve, reject) => {
         return apiCall('get', `/api/twitte/getAllTwittes?start=${start}&num=${num}`)
         .then(res => {
-            dispatch(loadTwittes(res));
+            const allTwittes = currentTwittes ? currentTwittes : [];
+            dispatch(loadTwittes(allTwittes.concat(res)));
             resolve(res);
         })
         .catch(err => {
-            addError(err.message);
+            dispatch(addError(err.message));
+            reject(err);
         })
     })
 }
@@ -26,6 +39,18 @@ export const postTwitte = twitte => dispatch => {
         console.log(res);
     })
     .catch(err => {
+        console.log(err);
+    })
+}
+
+export const deleteTwitte = (twitte_id, userId, currentTwittes) => dispatch => {
+    return apiCall('delete', `/api/twitte/delete?twitte_id=${twitte_id}&author=${userId}`)
+    .then(res => {
+        const leftTwittes = filterTwitte(currentTwittes, res);
+        dispatch(removeTwitte(leftTwittes));
+    })
+    .catch(err => {
+        dispatch(addError(err.message));
         console.log(err);
     })
 }

@@ -64,7 +64,9 @@ exports.getTwitte = async function(ctx, next){
 
 // /api/twitte/delete?twitte_id
 exports.deleteTwitte = async function(ctx, next){
+    console.log("enter dletet");
     try {
+        console.log(ctx.request.query.twitte_id);
         let twitte = await db.Twitte.findById(ctx.request.query.twitte_id);
         await twitte.remove();
         ctx.body = twitte;

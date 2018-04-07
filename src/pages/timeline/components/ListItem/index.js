@@ -1,27 +1,11 @@
 import React,{Component} from 'react';
 import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
 import Image from 'react-image-resizer';
+import { success, error, warning } from '../../../../components/Message/index';
+
 
 const Panel = Collapse.Panel;
 const { TextArea } = Input;
-
-const listData = [];
-for (let i = 0; i < 5; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
-
-const pagination = {
-  pageSize: 10,
-  current: 1,
-  total: listData.length,
-  onChange: (() => {}),
-};
 
 class IconText extends Component {
     render() {
@@ -62,16 +46,17 @@ class ListItem extends Component {
             num: 10,
         }
         this.handleClick = this.handleClick.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
     componentWillMount() {
         this.props.fetchTwittes(0, 10)
         .then(res => {
-            console.log(res);
             this.setState({
-                twitte: res
+                twitte: this.props.twittes
             });
         })
     }
+
     handleClick(index) {
         const messageShow = this.state.messageShow;
         if (messageShow.has(index)) {
@@ -84,14 +69,27 @@ class ListItem extends Component {
         });
     }
 
+    handleDelete(item) {
+        this.props.deleteTwitte(item._id, this.props.currentUser.user.id, this.state.twitte)
+        .then(res => {
+            success("Delete a post successfully !");
+            this.setState({
+                twitte: this.props.twittes
+            })
+        })
+        .catch(err => {
+            warning(err);
+        })
+    }
+
     onLoadMore = () => {
         this.setState({
           loadingMore: true,
         });
-        this.props.fetchTwittes(this.state.start+1, this.state.num)
+        this.props.fetchTwittes(this.state.start+1, this.state.num, this.state.twitte)
         .then(res => {
             this.setState({
-                twitte: this.state.twitte.concat(res),
+                twitte: this.props.twittes,
                 loadingMore: false,
                 start: this.state.start + 1
             }, () => {
@@ -106,6 +104,7 @@ class ListItem extends Component {
     render() {
         const { messageShow } = this.state;
         const { loading, loadingMore, showLoadingMore, data } = this.state;
+        const { currentUser } = this.props;
         const loadMore = showLoadingMore ? (
           <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
             {loadingMore && <Spin />}
@@ -123,7 +122,12 @@ class ListItem extends Component {
                     <div>
                         <List.Item
                             key={item.title}
-                            actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <span onClick={() => this.handleClick(index)}><IconText type="message" text={item.comments.length} /></span>]}
+                            actions={[
+                                <IconText type="star-o" text="156" />,
+                                <IconText type="like-o" text="156" />,
+                                <span onClick={() => this.handleClick(index)}><IconText type="message" text={item.comments.length} /></span>,
+                                item.author && currentUser.user.id === item.author._id ? <span onClick={() => this.handleDelete(item)}><IconText type="delete" /></span> : null
+                            ]}
                             extra={<div className="twl-timeline-border"><Image width={200} height={150} alt="logo" src={item.image} /></div>}
                         >
                             <List.Item.Meta

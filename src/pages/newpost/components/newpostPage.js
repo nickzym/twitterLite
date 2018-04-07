@@ -18,7 +18,7 @@ class NewpostPage extends Component {
                   <TabPane tab="Normal Twitte" key="1">
                     <NormalTwitte />
                   </TabPane>
-                  <TabPane tab="Premimu Twitte" key="2">
+                  <TabPane tab="Premium Twitte" key="2">
                     <PremiumTwitte />
                   </TabPane>
                 </Tabs>

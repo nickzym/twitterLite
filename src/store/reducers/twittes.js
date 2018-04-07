@@ -5,6 +5,9 @@ const twittes = (state = [], action) => {
         case LOAD_TWITTES:
             return [...action.twittes];
             break;
+        case REMOVE_TWITTE:
+            return [...action.twittes];
+            break;
         default:
             return state;
     }

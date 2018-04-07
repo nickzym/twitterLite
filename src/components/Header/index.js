@@ -26,15 +26,10 @@ class Header extends Component {
     handleClick(e){
         e.preventDefault();
         this.props.logOut()
-        .then(() => {
-            success('Log out successfully!');
-            setTimeout(function() {
-                window.location.href = '/';
-            }, 2000);
-        })
-        .catch(err => {
-            error(err);
-        })
+        success('Log out successfully!');
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 2000);
     }
 
     render() {
