@@ -20,13 +20,32 @@ class IconText extends Component {
 }
 
 class Message extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        const { comments } = this.props;
         return (
             <Collapse bordered={false} defaultActiveKey={['1']} >
                 <Panel key="1" showArrow={false}>
-                    <IconText type="message" text="This is a message leaving from Nick Yiming zhang" />
+                    <List
+                        size="small"
+                        bordered
+                        dataSource={comments}
+                        renderItem={item => (
+                          <List.Item>
+                            <List.Item.Meta
+                              className="twl-twitte-comment"
+                              avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
+                              title={<a href="https://ant.design">{item.author.username}</a>}
+                              description={item.text}
+                            />
+                          </List.Item>
+                        )}
+                     />
                     <hr style={{visibility:"hidden"}}/>
-                    <TextArea placeholder="Leave your comments here" autosize={{ minRows: 2, maxRows: 6 }} />
+                    <TextArea placeholder="Leave your comments here" autosize={{ minRows: 2, maxRows: 6 }} onPressEnter={this.props.handleEnter}/>
                 </Panel>
             </Collapse>
         );
@@ -47,6 +66,7 @@ class ListItem extends Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
     }
     componentWillMount() {
         this.props.fetchTwittes(0, 10)
@@ -72,13 +92,32 @@ class ListItem extends Component {
     handleDelete(item) {
         this.props.deleteTwitte(item._id, this.props.currentUser.user.id, this.state.twitte)
         .then(res => {
-            success("Delete a post successfully !");
+            success("Delete a post successfully!");
             this.setState({
                 twitte: this.props.twittes
             })
         })
         .catch(err => {
             warning(err);
+        })
+    }
+
+    handleEnter(item, e) {
+        const { commentTwitte, currentUser } = this.props;
+        const comment = new Object();
+        comment.twitte_id = item._id;
+        comment.author = currentUser.user.id;
+        comment.text = e.target.value;
+        commentTwitte(comment, this.state.twitte)
+        .then(res => {
+            success("Comment successfully!");
+            this.setState({
+                twitte: this.props.twittes
+            })
+        })
+        .catch(err => {
+            error("Comment failed for some reason");
+            console.log(err);
         })
     }
 
@@ -126,6 +165,7 @@ class ListItem extends Component {
                                 <IconText type="star-o" text="156" />,
                                 <IconText type="like-o" text="156" />,
                                 <span onClick={() => this.handleClick(index)}><IconText type="message" text={item.comments.length} /></span>,
+                                <IconText type="clock-circle-o" text={`created at ${item.createAt.substring(0, 10)}`} />,
                                 item.author && currentUser.user.id === item.author._id ? <span onClick={() => this.handleDelete(item)}><IconText type="delete" /></span> : null
                             ]}
                             extra={<div className="twl-timeline-border"><Image width={200} height={150} alt="logo" src={item.image} /></div>}
@@ -138,7 +178,7 @@ class ListItem extends Component {
                             {item.description}
                             </List.Item>
                             {
-                                messageShow.has(index) ? <Message /> : null
+                                messageShow.has(index) ? <Message comments={item.comments} handleEnter={(e) => this.handleEnter(item, e)} /> : null
                             }
                     </div>
                 )}

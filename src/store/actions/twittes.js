@@ -1,6 +1,6 @@
 import { apiCall } from '../../services/api';
 import { addError } from './errors';
-import { LOAD_TWITTES, REMOVE_TWITTE } from '../constants';
+import { LOAD_TWITTES, REMOVE_TWITTE, COMMENT_TWITTE } from '../constants';
 
 export const loadTwittes = twittes => ({
     type: LOAD_TWITTES,
@@ -12,10 +12,24 @@ export const removeTwitte = twittes => ({
     twittes
 });
 
+export const updateTwitte = twittes => ({
+    type: COMMENT_TWITTE,
+    twittes
+})
+
 const filterTwitte = (twittes, twitte) => {
     return twittes.filter((value) => {
         return value._id !== twitte._id
     });
+}
+
+const updateTwittes = (twittes, twitte) => {
+    for (var i = 0; i < twittes.length; i++) {
+        if (twittes[i]._id === twitte._id) {
+            twittes[i] = twitte;
+            break;
+        }
+    }
 }
 
 export const fetchTwittes = (start, num, currentTwittes) => dispatch => {
@@ -51,6 +65,18 @@ export const deleteTwitte = (twitte_id, userId, currentTwittes) => dispatch => {
     })
     .catch(err => {
         dispatch(addError(err.message));
+        console.log(err);
+    })
+}
+
+export const commentTwitte = (comment, currentTwittes) => dispatch => {
+    return apiCall('post', '/api/twitte/comment', comment)
+    .then(res => {
+        updateTwittes(currentTwittes, res);
+        console.log(res);
+        dispatch(updateTwitte(currentTwittes));
+    })
+    .then(err => {
         console.log(err);
     })
 }

@@ -88,7 +88,16 @@ exports.getAllTwittes = async function(ctx, next) {
         .populate("author", {
             username: true,
             avatar: true,
-        });
+        })
+        .populate({
+            path: 'comments',
+            select: 'text createAt',
+            populate: {
+                path: "author",
+                select: 'username avatar',
+                model: 'User'
+            }
+        });;
         ctx.body = twittes;
         return next();
     } catch (err) {
@@ -99,22 +108,37 @@ exports.getAllTwittes = async function(ctx, next) {
 //api/twitte/comment
 exports.commentTwitte = async function(ctx, next){
     try {
-        const { text, author, twitte } = ctx.request.body;
+        const { text, author, twitte_id } = ctx.request.body;
         let comment = await db.Comment.create({
             text,
             author,
         });
-        console.log(comment);
         let foundAuthor = await db.User.findById(author);
         foundAuthor.comments.push(comment.id);
         await foundAuthor.save();
+        console.log('author saved');
 
-        let foundTwitte = await db.Twitte.findById(twitte);
+        let foundTwitte = await db.Twitte.findById(twitte_id);
         foundTwitte.comments.push(comment.id);
         await foundTwitte.save();
-
-        ctx.body = comment;
-        return next(err);
+        console.log('twitte saved');
+        let newTwitte = await db.Twitte.findById(twitte_id)
+        .populate("author", {
+            username: true,
+            avatar: true
+        })
+        .populate({
+            path: 'comments',
+            select: 'text createAt',
+            populate: {
+                path: "author",
+                select: 'username avatar',
+                model: 'User'
+            }
+        });
+        console.log(newTwitte);
+        ctx.body = newTwitte;
+        return next();
     } catch (err) {
         return next(err);
     }
