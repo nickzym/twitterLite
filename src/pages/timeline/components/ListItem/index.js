@@ -3,7 +3,6 @@ import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
 import Image from 'react-image-resizer';
 import { success, error, warning } from '../../../../components/Message/index';
 
-
 const Panel = Collapse.Panel;
 const { TextArea } = Input;
 
@@ -27,7 +26,7 @@ class Message extends Component {
     render() {
         const { comments } = this.props;
         return (
-            <Collapse bordered={false} defaultActiveKey={['1']} >
+            <Collapse bordered={false} defaultActiveKey={['1']}>
                 <Panel key="1" showArrow={false}>
                     <List
                         size="small"
@@ -38,7 +37,7 @@ class Message extends Component {
                             <List.Item.Meta
                               className="twl-twitte-comment"
                               avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
-                              title={<a href="https://ant.design">{item.author.username}</a>}
+                              title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
                               description={item.text}
                             />
                           </List.Item>
@@ -67,6 +66,7 @@ class ListItem extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
+        this.handleUserInfo = this.handleUserInfo.bind(this);
     }
     componentWillMount() {
         this.props.fetchTwittes(0, 10)
@@ -121,6 +121,15 @@ class ListItem extends Component {
         })
     }
 
+    handleUserInfo(user_id) {
+        this.props.history.push({
+            pathname: '/profile',
+            query: {
+                author: user_id
+            }
+        })
+    }
+
     onLoadMore = () => {
         this.setState({
           loadingMore: true,
@@ -153,6 +162,7 @@ class ListItem extends Component {
         const defaultImg = "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png";
         return(
             <List
+                style={{fontFamily: 'Montserrat'}}
                 itemLayout="vertical"
                 size="middle"
                 loadMore={loadMore}
@@ -172,13 +182,13 @@ class ListItem extends Component {
                         >
                             <List.Item.Meta
                                 title={<a href={item.href}>{item.title}</a>}
-                                description={item.author ? `@${item.author.username}` : 'No one'}
+                                description={item.author ? <span onClick={() => this.handleUserInfo(item.author._id)}>{`@${item.author.username}`}</span> : 'No one'}
                                 avatar = {<Avatar size="large" src={item.author ? item.author.avatar : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />}
                             />
                             {item.description}
                             </List.Item>
                             {
-                                messageShow.has(index) ? <Message comments={item.comments} handleEnter={(e) => this.handleEnter(item, e)} /> : null
+                                messageShow.has(index) ? <Message comments={item.comments} userInfo={this.handleUserInfo} handleEnter={(e) => this.handleEnter(item, e)} /> : null
                             }
                     </div>
                 )}

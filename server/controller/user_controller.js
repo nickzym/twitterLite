@@ -110,3 +110,40 @@ exports.loginUser = async (ctx, next) => {
         });
     }
 };
+
+exports.getUser = async (ctx, next) => {
+    try {
+        const userId = ctx.request.query.userId;
+        let user = await db.User.findById(userId)
+        .populate("twittes", {
+            title: true,
+            description: true,
+            image: true,
+            createAt: true
+        })
+        .populate({
+            path: 'comments',
+            select: 'text createAt',
+            populate: {
+                path: "twitte",
+                select: 'title description author',
+                model: 'Twitte'
+            }
+        });
+
+        if (!user) {
+            ctx.body = {
+                error: {
+                    message: "No such user in our system"
+                }
+            };
+        } else {
+            ctx.body = user;
+        }
+    } catch (err) {
+        return next({
+            status: 400,
+            message: 'No such user in our system'
+        });
+    }
+}

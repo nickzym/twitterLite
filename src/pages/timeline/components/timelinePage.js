@@ -16,6 +16,7 @@ class TimelinePage extends Component {
                         deleteTwitte={this.props.deleteTwitte}
                         commentTwitte={this.props.commentTwitte}
                         twittes={this.props.twittes}
+                        history={this.props.history}
                     />
                 </div>
             </div>

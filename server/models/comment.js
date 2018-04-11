@@ -5,6 +5,10 @@ const commentSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    twitte: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Twitte"
     }
 });
 

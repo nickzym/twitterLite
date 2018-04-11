@@ -1,0 +1,41 @@
+@cssPrefix: twl-profile;
+
+.@{cssPrefix} {
+    &--container {
+        flex: 0 0 auto;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    &--wrapper {
+        min-height: 90vh;
+        width: 80%;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: nowrap;
+    }
+
+    &--card {
+        width: 30%;
+        height: 300px;
+    }
+
+    &--history {
+        width: 60%;
+    }
+
+    &--reftwitte {
+        background: #f7f7f7;
+        padding: 4px;
+        border-radius: 4px;
+        margin-bottom: 24px;
+        border: 0;
+    }
+
+    &--comments {
+        .ant-list-item-meta-description {
+            color: #1890ff !important;
+        }
+    }
+}

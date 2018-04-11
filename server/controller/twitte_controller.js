@@ -112,6 +112,7 @@ exports.commentTwitte = async function(ctx, next){
         let comment = await db.Comment.create({
             text,
             author,
+            twitte: twitte
         });
         let foundAuthor = await db.User.findById(author);
         foundAuthor.comments.push(comment.id);
