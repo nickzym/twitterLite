@@ -5,6 +5,7 @@ import loginRouter from '../../pages/login';
 import signupRouter from '../../pages/signup';
 import newpostRouter from '../../pages/newpost';
 import profileRouter from '../../pages/profile';
+import twitteInfoRouter from '../../pages/TwitteInfoPage';
 
 const routesConfig=[
   homeRouter,
@@ -13,6 +14,7 @@ const routesConfig=[
   signupRouter,
   newpostRouter,
   profileRouter,
+  twitteInfoRouter
 ];
 
 export default routesConfig;

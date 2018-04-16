@@ -2,51 +2,29 @@ import React,{Component} from 'react';
 import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
 import Image from 'react-image-resizer';
 import { success, error, warning } from '../../../../components/Message/index';
+import CommentList from '../../../../components/CommentList/index';
 
 const Panel = Collapse.Panel;
 const { TextArea } = Input;
 
 class IconText extends Component {
     render() {
-        const { type, text } = this.props;
+        const { type, text, iconPos } = this.props;
         return(
             <span>
-              <Icon type={type} style={{ marginRight: 8 }}/>
-              {text}
+                {
+                    iconPos === 'right' ?
+                    <div>
+                        {text}
+                        <Icon type={type} style={{ marginLeft: 8, color: '#1890ff' }}/>
+                    </div> :
+                    <div>
+                        <Icon type={type} style={{ marginRight: 8 }}/>
+                        {text}
+                    </div>
+
+                }
             </span>
-        );
-    }
-}
-
-class Message extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const { comments } = this.props;
-        return (
-            <Collapse bordered={false} defaultActiveKey={['1']}>
-                <Panel key="1" showArrow={false}>
-                    <List
-                        size="small"
-                        bordered
-                        dataSource={comments}
-                        renderItem={item => (
-                          <List.Item>
-                            <List.Item.Meta
-                              className="twl-twitte-comment"
-                              avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
-                              title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
-                              description={item.text}
-                            />
-                          </List.Item>
-                        )}
-                     />
-                    <hr style={{visibility:"hidden"}}/>
-                    <TextArea placeholder="Leave your comments here" autosize={{ minRows: 2, maxRows: 6 }} onPressEnter={this.props.handleEnter}/>
-                </Panel>
-            </Collapse>
         );
     }
 }
@@ -108,6 +86,7 @@ class ListItem extends Component {
         comment.twitte_id = item._id;
         comment.author = currentUser.user.id;
         comment.text = e.target.value;
+        console.log(comment);
         commentTwitte(comment, this.state.twitte)
         .then(res => {
             success("Comment successfully!");
@@ -126,6 +105,16 @@ class ListItem extends Component {
             pathname: '/profile',
             query: {
                 author: user_id
+            }
+        })
+    }
+
+    handleTiwtteInfo(twitte) {
+        this.props.history.push({
+            pathname: '/twitte_info',
+            query: {
+                twitte,
+                userId: this.props.currentUser.user.id
             }
         })
     }
@@ -150,6 +139,7 @@ class ListItem extends Component {
     }
 
     render() {
+        const clsPrefix = 'twl-list';
         const { messageShow } = this.state;
         const { loading, loadingMore, showLoadingMore, data } = this.state;
         const { currentUser } = this.props;
@@ -181,14 +171,14 @@ class ListItem extends Component {
                             extra={<div className="twl-timeline-border"><Image width={200} height={150} alt="logo" src={item.image} /></div>}
                         >
                             <List.Item.Meta
-                                title={<a href={item.href}>{item.title}</a>}
-                                description={item.author ? <span onClick={() => this.handleUserInfo(item.author._id)}>{`@${item.author.username}`}</span> : 'No one'}
+                                title={item.isPremium ? <span className={`${clsPrefix}--pointer`} onClick={() => this.handleTiwtteInfo(item)}><IconText iconPos='right' type="eye" text={item.title}/></span> : item.title}
+                                description={item.author ? <span className={`${clsPrefix}--pointer`} onClick={() => this.handleUserInfo(item.author._id)}>{`@${item.author.username}`}</span> : 'No one'}
                                 avatar = {<Avatar size="large" src={item.author ? item.author.avatar : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />}
                             />
                             {item.description}
                             </List.Item>
                             {
-                                messageShow.has(index) ? <Message comments={item.comments} userInfo={this.handleUserInfo} handleEnter={(e) => this.handleEnter(item, e)} /> : null
+                                messageShow.has(index) ? <CommentList comments={item.comments} userInfo={this.handleUserInfo} handleEnter={(e) => this.handleEnter(item, e)} /> : null
                             }
                     </div>
                 )}

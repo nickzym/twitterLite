@@ -1,3 +1,5 @@
+'use strict';
+
 const inspect = require('util').inspect;
 const path = require('path');
 const os = require('os');
@@ -49,6 +51,7 @@ async function uploadFileToGoogle(saveTo, fileName, bucketName) {
 }
 
 
+
 /**
  * 上传文件
  * @param  {object} ctx     koa上下文
@@ -77,8 +80,8 @@ async function uploadFile( ctx, options) {
             const reader = fs.createReadStream(file.path);
             const stream = fs.createWriteStream(saveTo);
             reader.pipe(stream);
+            console.log('file writes into local storage');
             // 文件写入事件结束
-
             uploadFileToGoogle(saveTo, fileName, fileType)
             .then(res => {
                 console.log('file upload successfully!');

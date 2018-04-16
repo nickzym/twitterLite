@@ -32,11 +32,14 @@ const updateTwittes = (twittes, twitte) => {
     }
 }
 
+let storeTwittes = [];
+
 export const fetchTwittes = (start, num, currentTwittes) => dispatch => {
     return new Promise((resolve, reject) => {
         return apiCall('get', `/api/twitte/getAllTwittes?start=${start}&num=${num}`)
         .then(res => {
             const allTwittes = currentTwittes ? currentTwittes : [];
+            storeTwittes = allTwittes;
             dispatch(loadTwittes(allTwittes.concat(res)));
             resolve(res);
         })
@@ -61,6 +64,7 @@ export const deleteTwitte = (twitte_id, userId, currentTwittes) => dispatch => {
     return apiCall('delete', `/api/twitte/delete?twitte_id=${twitte_id}&author=${userId}`)
     .then(res => {
         const leftTwittes = filterTwitte(currentTwittes, res);
+        storeTwittes = allTwittes;
         dispatch(removeTwitte(leftTwittes));
     })
     .catch(err => {
@@ -74,9 +78,23 @@ export const commentTwitte = (comment, currentTwittes) => dispatch => {
     .then(res => {
         updateTwittes(currentTwittes, res);
         console.log(res);
+        storeTwittes = currentTwittes
         dispatch(updateTwitte(currentTwittes));
     })
-    .then(err => {
+    .catch(err => {
         console.log(err);
+    })
+}
+
+export const commentSingleTwitte = comment => {
+    return new Promise((resolve, reject) => {
+        return apiCall('post', '/api/twitte/comment', comment)
+        .then(res => {
+            updateTwittes(storeTwittes, res);
+            resolve(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     })
 }
