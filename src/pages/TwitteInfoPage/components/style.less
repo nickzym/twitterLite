@@ -30,11 +30,41 @@
     &--rightPanel {
         width: 65%;
         height: 100%;
+        min-height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     &--twitteInfo {
+        background-color: #e6f7ff;
         padding: 9px;
         border: 1px solid #e7e7e7;
-        border-radius: 2px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: nowrap;
     }
+
+    &--twittecontent {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-start;
+    }
+
+    &--twitte_logo {
+        display: flex;
+        align-items: center;
+        font-family: Roboto !important;
+        font-size: 20px;
+    }
+
+    &--dollar {
+        color: #FFD700 !important;
+    }
+}
+
+.fa-yelp {
+    margin-right: 10px;
 }
