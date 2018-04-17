@@ -5,6 +5,8 @@ import Image  from 'react-image-resizer';
 import { apiCall } from '../../../services/api';
 import { Menu, Icon, Avatar, Spin, Collapse, Card, Tag, Rate } from 'antd';
 import { Icon as IconFa }  from 'react-fa';
+import {Card as MCard, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CommentList from '../../../components/CommentList/index';
 import { success, error, warning } from '../../../components/Message/index';
 import { MapComponent } from '../../../components/MapComponent';
@@ -88,14 +90,26 @@ class TwitteInfoPage extends Component {
                     })
                 }
             } else if (key === '3') {
-                const loc = this.state.twitte.location;
-                return apiCall('get', `/api/facebook/get?location=${loc}`)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+                if(!this.state.google) {
+                    const {lat, lng} = this.state;
+                    return apiCall('get', `/api/google/get?lat=${lat}&lng=${lng}`)
+                    .then(res => {
+                        console.log(res);
+                        this.setState({
+                            google: res,
+                            key,
+                            loading: false
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                } else {
+                    this.setState({
+                        key,
+                        loading: false
+                    })
+                }
             }
         })
     }
@@ -195,6 +209,54 @@ class TwitteInfoPage extends Component {
                     </Collapse>
                 </div>
             )
+        } else if (key === '3') {
+            const google = this.state.google;
+            const apiKey = 'AIzaSyCCbxThosEqEbGFGorOc6YVVs6mWvAlnMY';
+            return (
+                <div>
+                    <Image width={200} height={128} src={require('../image/google_logo.png')} />
+                    <MuiThemeProvider>
+                        <MCard>
+                            <CardHeader
+                              title="Google Providing Content"
+                              subtitle="Powered by google map api service"
+                              avatar={require("../image/google_maps_logo.png")}
+                            />
+                            {
+                                google.photos ?
+                                <CardMedia
+                                  overlay={<CardTitle title={google.name} subtitle={google.formatted_address} />}
+                                >
+                                    <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${google.photos[0].photo_reference}&key=${apiKey}`} alt="google" />
+                                </CardMedia>
+                                : null
+                            }
+                            <CardTitle title={google.name} subtitle={google.types[0]} />
+                            <CardText>
+                              <a href={google.website}>Web site</a>
+                            </CardText>
+                            {
+                                google.reviews.map((value, index) => {
+                                    return(
+                                        <MCard>
+                                            <CardHeader
+                                              title={value.author_name}
+                                              avatar={value.profile_photo_url}
+                                            />
+                                            <CardTitle>
+                                                <Rate disabled allowHalf defaultValue={value.rating} />
+                                            </CardTitle>
+                                            <CardText>
+                                              {value.text}
+                                            </CardText>
+                                        </MCard>
+                                    )
+                                })
+                            }
+                        </MCard>
+                    </MuiThemeProvider>
+                </div>
+            );
         }
     }
 
@@ -224,18 +286,22 @@ class TwitteInfoPage extends Component {
                                   Yelp Providing Content
                             </Menu.Item>
                             <Menu.Item key="3">
-                                <Icon type="facebook" />
-                                Fackebook Providing Content
+                                <Icon type="google" />
+                                Google Providing Content
                             </Menu.Item>
                         </Menu>
-                        <MapComponent
-                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCbxThosEqEbGFGorOc6YVVs6mWvAlnMY&v=3.exp&libraries=geometry,drawing,places"
-                            loadingElement={<div style={{ height: `100%` }} />}
-                            containerElement={<div style={{ height: `400px` }} />}
-                            mapElement={<div style={{ height: `100%` }} />}
-                            lat={this.state.lat}
-                            lng={this.state.lng}
-                        />
+                        <MuiThemeProvider>
+                            <MCard>
+                                <MapComponent
+                                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCbxThosEqEbGFGorOc6YVVs6mWvAlnMY&v=3.exp&libraries=geometry,drawing,places"
+                                    loadingElement={<div style={{ height: `100%` }} />}
+                                    containerElement={<div style={{ height: `400px` }} />}
+                                    mapElement={<div style={{ height: `100%` }} />}
+                                    lat={this.state.lat}
+                                    lng={this.state.lng}
+                                />
+                            </MCard>
+                        </MuiThemeProvider>
                     </div>
                     <div className={`${clsPrefix}--rightPanel`}>
                         {
