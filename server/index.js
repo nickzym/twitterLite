@@ -14,7 +14,7 @@ require('dotenv').config();
 
 const app=require('./app.js').default,
   clientRouter=require('./clientRouter.js').default,
-  port = process.env.port || 3000,
+  port = process.env.PORT || 3000,
   staticCache  = require("koa-static-cache"),
   path =require('path'),
   cors=require('koa2-cors'),
