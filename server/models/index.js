@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
 
-mongoose.connect("mongodb://localhost/twitterLite", {
-    keepAlive: true,
+const db_url = process.env.DATABASEURL || "mongodb://localhost/twitterLite";
+mongoose.connect(db_url, {
+    useMongoClient: true,
+    keepAlive: true
 });
 
 module.exports.User = require("./user");

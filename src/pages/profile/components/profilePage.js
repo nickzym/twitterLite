@@ -28,6 +28,7 @@ class ProfilePage extends Component {
         console.log(user);
         return (
             <div className={`${clsPrefix}--container`}>
+                <h1>Personal profile</h1>
                 {
                     user ?
                     <div className={`${clsPrefix}--wrapper`}>

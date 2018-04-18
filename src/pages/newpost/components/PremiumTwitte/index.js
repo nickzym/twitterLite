@@ -42,6 +42,9 @@ class PremiumTwitteForm extends React.Component {
                 this.props.postTwitte(formData)
                 .then(res => {
                     success('Post a new twitte successfully!');
+                    setTimeout(function() {
+                        window.location.href = '/timeline';
+                    }, 2000);
                 })
                 .catch(err => {
                     error('Post twitte failed : (');

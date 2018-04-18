@@ -110,7 +110,7 @@ const prodConfig={
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
-      title:'yyy',
+      title:'Twitte-Lite',
       publicUrl: './',
       filename:'index.html',
       template:'./index.ejs',

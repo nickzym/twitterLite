@@ -18,7 +18,7 @@ const Background = () => {
         	    <div className={`${clsPrefix}--content`}>
              		<h1>Welcome to TwitterLite</h1>
              		<hr className={`${clsPrefix}--bar`}></hr>
-            		<a>View Your TimeLine</a>
+            		<a href="/timeline">View Your TimeLine</a>
                 </div>
     	    </div>
         </div>

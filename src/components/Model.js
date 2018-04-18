@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
 const Model = () =>
-    <div>yyy</div>
+    <div>Twitte-Lite</div>
 
 export default Model;

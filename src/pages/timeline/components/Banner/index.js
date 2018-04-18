@@ -14,7 +14,7 @@ class Banner extends Component {
                     Share your own experence, favorite restaurants and tour in this lite app.
                 </p>
                 <p>
-                    <Button>Post a twitte</Button>
+                    <Button href="/newpost">Post a twitte</Button>
                 </p>
             </div>
         </Jumbotron>
