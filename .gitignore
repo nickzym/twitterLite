@@ -1,3 +1,5 @@
 node_modules
 .idea/
 .gitignore2
+src
+.env
