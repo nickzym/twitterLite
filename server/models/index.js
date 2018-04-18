@@ -4,7 +4,6 @@ mongoose.Promise = Promise;
 
 const db_url = process.env.DATABASEURL || "mongodb://localhost/twitterLite";
 mongoose.connect(db_url, {
-    useMongoClient: true,
     keepAlive: true
 });
 
