@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Image from 'react-image-resizer';
 import { Card, Icon, Avatar, Collapse, List } from 'antd';
 import { apiCall } from '../../../services/api';
@@ -38,8 +38,8 @@ class ProfilePage extends Component {
                                 actions={[<Icon type="edit">Posts: {user.twittes.length}</Icon>, <Icon type="message">Comments: {user.comments.length}</Icon>]}
                             >
                                 <Meta
-                                  title={user.username}
-                                  description={user.email}
+                                    title={user.username}
+                                    description={user.email}
                                 />
                             </Card>
                         </div>
@@ -47,34 +47,34 @@ class ProfilePage extends Component {
                             <Collapse>
                                 <Panel header={`${user.username}'s twittes'`} key="1">
                                     <List
-                                      itemLayout="vertical"
-                                      dataSource={user.twittes}
-                                      renderItem={item => (
-                                        <List.Item>
-                                          <List.Item.Meta
-                                            title={item.title}
-                                            description={item.description}
-                                          />
-                                          <Image width={200} height={150} alt="logo" src={item.image} />
-                                        </List.Item>
-                                      )}
+                                        itemLayout="vertical"
+                                        dataSource={user.twittes}
+                                        renderItem={item => (
+                                            <List.Item>
+                                                <List.Item.Meta
+                                                    title={item.title}
+                                                    description={item.description}
+                                                />
+                                                <Image width={200} height={150} alt="logo" src={item.image} />
+                                            </List.Item>
+                                        )}
                                     />
                                 </Panel>
                                 <Panel header={`${user.username}'s comments'`} key="2">
                                     <List
-                                      className={`${clsPrefix}--comments`}
-                                      itemLayout="vertical"
-                                      dataSource={user.comments}
-                                      renderItem={item => (
-                                        <List.Item>
-                                          <List.Item.Meta
-                                            description={`"${item.text}"`}
-                                          />
-                                      <div className={`${clsPrefix}--reftwitte`}>
-                                            <div><b>twitte title:</b> {item.twitte ? item.twitte.title : "some twitte"}</div>
-                                            <div><b>twitte content:</b> {item.twitte ? item.twitte.description : "some twitte content"}</div>
-                                          </div>
-                                        </List.Item>
+                                        className={`${clsPrefix}--comments`}
+                                        itemLayout="vertical"
+                                        dataSource={user.comments}
+                                        renderItem={item => (
+                                            <List.Item>
+                                                <List.Item.Meta
+                                                    description={`"${item.text}"`}
+                                                />
+                                                <div className={`${clsPrefix}--reftwitte`}>
+                                                    <div><b>twitte title:</b> {item.twitte ? item.twitte.title : "some twitte"}</div>
+                                                    <div><b>twitte content:</b> {item.twitte ? item.twitte.description : "some twitte content"}</div>
+                                                </div>
+                                            </List.Item>
                                       )}
                                     />
                                 </Panel>

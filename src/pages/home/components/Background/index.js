@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import './style.less';
 
 const Background = () => {
@@ -8,11 +8,11 @@ const Background = () => {
             <div className={`${clsPrefix}--container`}>
         	    <div className={`${clsPrefix}--image`}>
         	        <ul className={`${clsPrefix}--slideshow`}>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
                     </ul>
         	    </div>
         	    <div className={`${clsPrefix}--content`}>

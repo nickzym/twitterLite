@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
 import Image from 'react-image-resizer';
 import { success, error, warning } from '../../../../components/Message/index';
@@ -45,6 +45,7 @@ class ListItem extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.handleUserInfo = this.handleUserInfo.bind(this);
+        this.onLoadMore = this.onLoadMore.bind(this);
     }
     componentWillMount() {
         this.props.fetchTwittes(0, 10)
@@ -119,9 +120,9 @@ class ListItem extends Component {
         })
     }
 
-    onLoadMore = () => {
+    onLoadMore(){
         this.setState({
-          loadingMore: true,
+            loadingMore: true,
         });
         this.props.fetchTwittes(this.state.start+1, this.state.num, this.state.twitte)
         .then(res => {

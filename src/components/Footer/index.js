@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import './style.less';
 import { Icon } from 'react-fa';

@@ -7,6 +7,8 @@ class ModalPlus extends React.Component {
         this.state = {
             visible: this.props.visible,
         }
+        this.handleOk = this.handleOk.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -15,17 +17,17 @@ class ModalPlus extends React.Component {
         })
     }
 
-    handleOk = (e) => {
+    handleOk(e){
         console.log(e);
         this.setState({
             visible: false,
         });
         this.props.onChange();
      }
-    handleCancel = (e) => {
+    handleCancel(e){
         console.log(e);
         this.setState({
-          visible: false,
+            visible: false,
         });
         this.props.onChange();
     }
@@ -34,12 +36,12 @@ class ModalPlus extends React.Component {
         return (
           <div>
             <Modal
-              title={title}
-              visible={this.state.visible}
-              onOk={this.handleOk}
-              onCancel={this.handleCancel}
+                title={title}
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
             >
-              <p>{context}</p>
+                <p>{context}</p>
             </Modal>
           </div>
         );

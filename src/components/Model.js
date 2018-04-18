@@ -1,6 +1,6 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 
-const Model=()=>
-  <div>yyy</div>
+const Model = () =>
+    <div>yyy</div>
 
 export default Model;

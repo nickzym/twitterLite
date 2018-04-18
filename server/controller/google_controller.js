@@ -16,7 +16,6 @@ exports.getGoogleData = async function(ctx, next){
         })
         .asPromise()
         .then(response => {
-            console.log(response.json.results[0]);
             place_id = response.json.results[0].place_id;
             reference = response.json.results[0].reference;
         })

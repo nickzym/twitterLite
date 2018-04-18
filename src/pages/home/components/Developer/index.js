@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Card } from 'antd';
 import TabsCard from './TabsCard';
@@ -17,21 +17,20 @@ const Developer = () => {
             <div className={`${clsPrefix}--card`}>
                 <div className={`${clsPrefix}--card-left`}>
                     <Card
-                      hoverable
-                      style={{ width: 240 }}
-                      cover={<img alt="example" src={devImg} />}
+                        hoverable
+                        style={{ width: 240 }}
+                        cover={<img alt="example" src={devImg} />}
                     >
-                      <Meta
-                        title="Yiming Zhang"
-                        description="Web developer"
-                      />
+                        <Meta
+                            title="Yiming Zhang"
+                            description="Web developer"
+                        />
                     </Card>
                 </div>
                 <div className={`${clsPrefix}--card-right`}>
                     <TabsCard />
                 </div>
             </div>
-
 	    </div>
     );
 };

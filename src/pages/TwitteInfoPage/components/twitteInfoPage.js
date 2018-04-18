@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Geocode from 'react-geocode';
 import { Image as ImageResize } from 'react-bootstrap';
 import Image  from 'react-image-resizer';
@@ -235,7 +235,7 @@ class TwitteInfoPage extends Component {
                             <CardText>
                               <a href={google.website}>Web site</a>
                             </CardText>
-                            {
+                            {   google.reviews ?
                                 google.reviews.map((value, index) => {
                                     return(
                                         <MCard>
@@ -251,7 +251,7 @@ class TwitteInfoPage extends Component {
                                             </CardText>
                                         </MCard>
                                     )
-                                })
+                                }) : null
                             }
                         </MCard>
                     </MuiThemeProvider>

@@ -5,17 +5,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { ReactLoadablePlugin } =require('react-loadable/webpack') ;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const GoogleFontsPlugin = require("google-fonts-webpack-plugin");
 const isServer=process.env.BUILD_TYPE==='server';
 const rootPath=path.join(__dirname,'../');
 const UglifyJsPlugin=require('uglifyjs-webpack-plugin');
 
+const includePaths = [
+    path.resolve(rootPath, 'src'),
+    path.resolve(rootPath, 'node_modules/react-geocode')
+];
+
 const prodConfig={
   context: path.join(rootPath,'./src'),
   entry: {
-    client:[bootstrapEntryPoints.prod,'./index.js'],
+    client:[bootstrapEntryPoints.prod, './index.js'],
     vendors:['react','react-dom','react-loadable','react-redux','redux','react-router-dom','react-router-redux','redux-thunk'],
   },
   output:{
@@ -33,12 +38,11 @@ const prodConfig={
     rules:[
       {
         test:/\.(js|jsx)$/,
-        exclude: /node_modules/,
-        include:path.resolve(rootPath, "src"),
+        include: includePaths,
         use:{
           loader:'babel-loader',
           options:{
-            presets: ['env', 'react', 'stage-0'],
+            presets: ['env', 'react', 'stage-0', 'es2015'],
             plugins: ['transform-runtime', 'add-module-exports', ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]],
             cacheDirectory: true,
           }
@@ -119,8 +123,11 @@ const prodConfig={
       filename: path.join(rootPath,'./dist/react-loadable.json'),
     }),
     new UglifyJsPlugin({
-      parallel: true,
-      sourceMap: true
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          ecma: 8,
+        }
     }),
     new GoogleFontsPlugin({
         fonts: [

@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import LoginForm from './LoginForm/index';
 import { Card } from 'antd';
 import './style.less';

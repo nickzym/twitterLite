@@ -85,7 +85,6 @@ const clientRouter=async(ctx,next)=>{
 
   let isMatch=getMatch(routesConfig,pureRoutes);
   if(isMatch){
-      console.log(persistor);
     let renderedHtml=await makeup(ctx,store,createApp,html);
     ctx.body=renderedHtml
   }

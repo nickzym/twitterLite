@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import './style.less';
@@ -21,26 +21,28 @@ class NormalLoginForm extends React.Component {
         this.state = {
             user: {}
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-          if (!err) {
-            console.log('Received values of form: ', values);
-            this.props.authUser('login', values)
-            .then(() => {
-                success('Login successfully!');
-                setTimeout(function() {
-                    window.location.href = '/';
-                }, 2000);
-            })
-            .catch(() => {
-                error(this.props.errors.message);
-            });
-          }
+            if (!err) {
+                console.log('Received values of form: ', values);
+                this.props.authUser('login', values)
+                .then(() => {
+                    success('Login successfully!');
+                    setTimeout(function() {
+                        window.location.href = '/';
+                    }, 2000);
+                })
+                .catch(() => {
+                    error(this.props.errors.message);
+                });
+            }
         });
-      }
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (

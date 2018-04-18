@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
@@ -37,32 +37,32 @@ class Header extends Component {
         const avatar = currentUser.user.avatar === '' ?  <Avatar size="small" icon="user" /> : <Avatar size="small" src={currentUser.user.avatar} />;
         return(
             <Navbar default collapseOnSelect>
-              <Navbar.Header>
+                <Navbar.Header>
                     <Navbar.Brand>
                       <Link to="/">TwitterLite <Icon name="fab fa-twitter" /></Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
-              </Navbar.Header>
+                </Navbar.Header>
                 <Navbar.Collapse>
                     {
                         currentUser.isAuthenticated ?
                         (
                             <Nav pullRight>
                                 <NavItem eventKey={1} href="/profile">
-                                  {avatar}
+                                    {avatar}
                                 </NavItem>
                                 <NavItem eventKey={1} href="/login" onClick={this.handleClick}>
-                                  <Icon name="fab fa-sign-out" />  Log Out
+                                    <Icon name="fab fa-sign-out" />  Log Out
                                 </NavItem>
                             </Nav>
                         ) :
                         (
                             <Nav pullRight>
                                 <NavItem eventKey={1} href="/login">
-                                  <Icon name="fab fa-user" />  Login
+                                    <Icon name="fab fa-user" />  Login
                                 </NavItem>
                                 <NavItem eventKey={2} href="/signup">
-                                  <Icon name="fab fa-sign-in" />  Sign Up
+                                    <Icon name="fab fa-sign-in" />  Sign Up
                                 </NavItem>
                             </Nav>
                         )

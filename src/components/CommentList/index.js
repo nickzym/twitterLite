@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{ Component } from 'react';
 import PropTypes from 'prop-types';
 import { List, Avatar, Collapse, Input } from 'antd';
 import './style.less';
@@ -22,14 +22,14 @@ class CommentList extends Component {
                         bordered
                         dataSource={comments}
                         renderItem={item => (
-                          <List.Item>
-                            <List.Item.Meta
-                              className="twl-twitte-comment"
-                              avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
-                              title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
-                              description={item.text}
-                            />
-                          </List.Item>
+                            <List.Item>
+                                <List.Item.Meta
+                                    className="twl-twitte-comment"
+                                    avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
+                                    title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
+                                    description={item.text}
+                                />
+                            </List.Item>
                         )}
                      />
                     <hr style={{visibility:"hidden"}}/>
@@ -42,14 +42,14 @@ class CommentList extends Component {
                     bordered
                     dataSource={comments}
                     renderItem={item => (
-                      <List.Item>
-                        <List.Item.Meta
-                          className="twl-twitte-comment"
-                          avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
-                          title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
-                          description={item.text}
-                        />
-                      </List.Item>
+                        <List.Item>
+                            <List.Item.Meta
+                                className="twl-twitte-comment"
+                                avatar={<Avatar src={item.author.avatar === '' ? "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" : item.author.avatar} />}
+                                title={<span onClick={() => this.props.userInfo(item.author._id)}>{`@${item.author.username}`}</span>}
+                                description={item.text}
+                                />
+                        </List.Item>
                     )}
                  />
                 <hr style={{visibility:"hidden"}}/>

@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, Upload, Modal } from 'antd';
 import ModalPlus from '../../../../components/ModalPlus/index';
@@ -18,15 +18,20 @@ class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          confirmDirty: false,
-          showAgree: false,
-          file: null,
-          avatarUrl: null,
+            confirmDirty: false,
+            showAgree: false,
+            file: null,
+            avatarUrl: null,
         };
         this.showAgreement = this.showAgreement.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleConfirmBlur = this.handleConfirmBlur.bind(this);
+        this.compareToFirstPassword = this.compareToFirstPassword.bind(this);
+        this.validateToNextPassword = this.validateToNextPassword.bind(this);
+        this.normFile = this.normFile.bind(this);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit(e){
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -53,12 +58,12 @@ class RegistrationForm extends React.Component {
         });
     }
 
-    handleConfirmBlur = (e) => {
+    handleConfirmBlur(e){
         const value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
-    compareToFirstPassword = (rule, value, callback) => {
+    compareToFirstPassword(rule, value, callback) {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
             callback('Two passwords that you enter is inconsistent!');
@@ -66,7 +71,7 @@ class RegistrationForm extends React.Component {
             callback();
         }
     }
-    validateToNextPassword = (rule, value, callback) => {
+    validateToNextPassword(rule, value, callback){
         const form = this.props.form;
         if (value && this.state.confirmDirty) {
             form.validateFields(['confirm'], { force: true });
@@ -74,7 +79,7 @@ class RegistrationForm extends React.Component {
         callback();
     }
 
-    normFile = (e) => {
+    normFile(e){
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
@@ -142,102 +147,102 @@ class RegistrationForm extends React.Component {
         return (
             <div>
                 <Form onSubmit={this.handleSubmit} style={{width: '500px', position: 'relative',left: '-50px'}}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="E-mail"
-                    style={{fontFamily: 'Montserrat'}}
-                  >
-                    {getFieldDecorator('email', {
-                      rules: [{
-                        type: 'email', message: 'The input is not valid E-mail!',
-                      }, {
-                        required: true, message: 'Please input your E-mail!',
-                      }],
-                    })(
-                      <Input />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label="Password"
-                    style={{fontFamily: 'Montserrat'}}
-                  >
-                    {getFieldDecorator('password', {
-                      rules: [{
-                        required: true, message: 'Please input your password!',
-                      }, {
-                        validator: this.validateToNextPassword,
-                      }],
-                    })(
-                      <Input type="password" />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label="Confirm Password"
-                    style={{fontFamily: 'Montserrat'}}
-                  >
-                    {getFieldDecorator('confirm', {
-                      rules: [{
-                        required: true, message: 'Please confirm your password!',
-                      }, {
-                        validator: this.compareToFirstPassword,
-                      }],
-                    })(
-                      <Input type="password" onBlur={this.handleConfirmBlur} />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={(
-                      <span>
-                        Nickname&nbsp;
-                        <Tooltip title="What do you want others to call you?">
-                          <Icon type="question-circle-o" />
-                        </Tooltip>
-                      </span>
-                    )}
-                    style={{fontFamily: 'Montserrat'}}
-                  >
-                    {getFieldDecorator('username', {
-                      rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-                    })(
-                      <Input />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label="Avatar"
-                    style={{fontFamily: 'Montserrat'}}
-                  >
-                    {getFieldDecorator('upload', {
-                      valuePropName: 'fileList',
-                      getValueFromEvent: this.normFile,
-                    })(
-                    <div>
-                        <Upload {...props} >
-                          <Button>
-                            <Icon type="upload" /> Click to upload
-                          </Button>
-                        </Upload>
-                            {
-                                this.state.avatarUrl === null ? null :
-                                <div style={{backgroundImage: `url(${this.state.avatarUrl})`, backgroundSize: '100%', width: '100px', height: '100px', position:'relative', borderRadius: '4px'}}/>
-                                // <img style={{width: '50', height: '50'}} alt="example" style={{ width: '100%' }} src={this.state.avatarUrl} />
-                            }
-                    </div>
-                    )}
-                  </FormItem>
-                  <FormItem {...tailFormItemLayout} style={{fontFamily: 'Montserrat'}}>
-                    {getFieldDecorator('agreement', {
-                      valuePropName: 'checked',
-                    })(
-                      <Checkbox style={{fontFamily: 'Montserrat'}}>I have read the <a onClick={this.showAgreement}>agreement</a></Checkbox>
-                    )}
-                  </FormItem>
-                  <FormItem {...tailFormItemLayout} style={{fontFamily: 'Montserrat'}}>
-                    <Button type="primary" htmlType="submit">Register</Button>
-                  </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="E-mail"
+                        style={{fontFamily: 'Montserrat'}}
+                    >
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                type: 'email', message: 'The input is not valid E-mail!',
+                            }, {
+                                required: true, message: 'Please input your E-mail!',
+                            }],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="Password"
+                        style={{fontFamily: 'Montserrat'}}
+                        >
+                        {getFieldDecorator('password', {
+                            rules: [{
+                                required: true, message: 'Please input your password!',
+                            }, {
+                                validator: this.validateToNextPassword,
+                            }],
+                        })(
+                            <Input type="password" />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="Confirm Password"
+                        style={{fontFamily: 'Montserrat'}}
+                    >
+                        {getFieldDecorator('confirm', {
+                            rules: [{
+                                required: true, message: 'Please confirm your password!',
+                            }, {
+                                validator: this.compareToFirstPassword,
+                            }],
+                        })(
+                            <Input type="password" onBlur={this.handleConfirmBlur} />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                                Nickname&nbsp;
+                                <Tooltip title="What do you want others to call you?">
+                                    <Icon type="question-circle-o" />
+                                </Tooltip>
+                            </span>
+                        )}
+                        style={{fontFamily: 'Montserrat'}}
+                    >
+                        {getFieldDecorator('username', {
+                            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="Avatar"
+                        style={{fontFamily: 'Montserrat'}}
+                    >
+                        {getFieldDecorator('upload', {
+                            valuePropName: 'fileList',
+                            getValueFromEvent: this.normFile,
+                        })(
+                            <div>
+                                <Upload {...props} >
+                                    <Button>
+                                        <Icon type="upload" /> Click to upload
+                                        </Button>
+                                    </Upload>
+                                    {
+                                        this.state.avatarUrl === null ? null :
+                                        <div style={{backgroundImage: `url(${this.state.avatarUrl})`, backgroundSize: '100%', width: '100px', height: '100px', position:'relative', borderRadius: '4px'}}/>
+                                        // <img style={{width: '50', height: '50'}} alt="example" style={{ width: '100%' }} src={this.state.avatarUrl} />
+                                    }
+                            </div>
+                        )}
+                    </FormItem>
+                    <FormItem {...tailFormItemLayout} style={{fontFamily: 'Montserrat'}}>
+                        {getFieldDecorator('agreement', {
+                            valuePropName: 'checked',
+                        })(
+                            <Checkbox style={{fontFamily: 'Montserrat'}}>I have read the <a onClick={this.showAgreement}>agreement</a></Checkbox>
+                        )}
+                    </FormItem>
+                    <FormItem {...tailFormItemLayout} style={{fontFamily: 'Montserrat'}}>
+                        <Button type="primary" htmlType="submit">Register</Button>
+                    </FormItem>
                 </Form>
                 <ModalPlus
                     visible={showAgree}

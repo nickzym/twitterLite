@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Banner from './Banner/index';
 import ListItem from './ListItem/index';
 import './style.less';
