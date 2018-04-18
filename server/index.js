@@ -48,6 +48,6 @@ app.use(errorHandler);
 //   console.error('server error', err, ctx)
 // });
 console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
-// Loadable.preloadAll().then(() => {
+Loadable.preloadAll().then(() => {
   app.listen(port, process.env.IP)
-// })
+})
