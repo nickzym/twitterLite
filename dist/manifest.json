@@ -1,6 +1,6 @@
 {
-  "client.css": "css/style.dd0213fcf6bf30f1226a.css",
-  "client.js": "client.dd0213fc.js",
+  "client.css": "css/style.d2fcf58d2afb38b57d6b.css",
+  "client.js": "client.d2fcf58d.js",
   "fontawesome-webfont.eot": "674f50d287a8c48dc19ba404d20fe713.eot",
   "fontawesome-webfont.svg?v=4.7.0": "912ec66d7572ff821749319396470bde.svg",
   "fontawesome-webfont.ttf?v=4.7.0": "b06871f281fee6b241d60582ae9369b9.ttf",
@@ -17,11 +17,11 @@
   "glyphicons-halflings-regular.ttf": "e18bbf611f2a2e43afc071aa2f4e1512.ttf",
   "glyphicons-halflings-regular.woff": "fa2772327f55d8198301fdb8bcfc8158.woff",
   "glyphicons-halflings-regular.woff2": "448c34a56d699c29117adc64c43affeb.woff2",
-  "manifest.js": "manifest.dd0213fc.js",
+  "manifest.js": "manifest.d2fcf58d.js",
   "static/media/dev_img.png": "static/media/dev_img.png",
   "static/media/google_maps_logo.png": "static/media/google_maps_logo.png",
   "static/media/iphone.jpg": "static/media/iphone.jpg",
   "static/media/pixel.jpg": "static/media/pixel.jpg",
   "static/media/yelp_logo.png": "static/media/yelp_logo.png",
-  "vendors.js": "vendors.dd0213fc.js"
+  "vendors.js": "vendors.d2fcf58d.js"
 }
