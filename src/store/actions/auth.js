@@ -31,7 +31,7 @@ export const authUser = (type, userData) => dispatch => {
     });
 }
 
-export const logOut = () => dispatch => {
+export const logOut = cookie => dispatch => {
     localStorage.clear();
     setAuthorizationToken();
     dispatch(setCurrentUser({}));

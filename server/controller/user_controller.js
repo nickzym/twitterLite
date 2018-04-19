@@ -30,6 +30,7 @@ exports.registerUser = async (ctx, next) => {
             email,
             password
         }, process.env.SECRET_KEY);
+        // ctx.cookies.set("jwtToken", token);
         ctx.body = {
             username,
             email,
@@ -89,6 +90,7 @@ exports.loginUser = async (ctx, next) => {
                 email,
                 avatar
             }, process.env.SECRET_KEY);
+            // ctx.cookies.set("jwtToken", token);
             ctx.body = {
                 id,
                 username,

@@ -3,31 +3,10 @@ import { List, Avatar, Icon, Collapse, Input, Button, Spin } from 'antd';
 import Image from 'react-image-resizer';
 import { success, error, warning } from '../../../../components/Message/index';
 import CommentList from '../../../../components/CommentList/index';
+import IconText from '../../../../components/IconText/index';
 
 const Panel = Collapse.Panel;
 const { TextArea } = Input;
-
-class IconText extends Component {
-    render() {
-        const { type, text, iconPos } = this.props;
-        return(
-            <span>
-                {
-                    iconPos === 'right' ?
-                    <div>
-                        {text}
-                        <Icon type={type} style={{ marginLeft: 8, color: '#1890ff' }}/>
-                    </div> :
-                    <div>
-                        <Icon type={type} style={{ marginRight: 8 }}/>
-                        {text}
-                    </div>
-
-                }
-            </span>
-        );
-    }
-}
 
 class ListItem extends Component {
     constructor(props) {

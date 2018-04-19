@@ -8,7 +8,6 @@ import { Icon } from 'react-fa';
 import { logOut } from '../../store/actions/auth';
 import { success, error } from '../Message/index';
 
-
 const mapStateToProps = state => (
     {
         currentUser: state.currentUser,
@@ -21,6 +20,7 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.handleUserInfo = this.handleUserInfo.bind(this);
     }
 
     handleClick(e){
@@ -30,6 +30,11 @@ class Header extends Component {
         setTimeout(function() {
             window.location.href = '/';
         }, 2000);
+    }
+
+    handleUserInfo(e) {
+        e.preventDefault();
+        window.location.href = `/profile?author=${this.props.currentUser.user.id}`;
     }
 
     render() {
@@ -48,7 +53,7 @@ class Header extends Component {
                         currentUser.isAuthenticated ?
                         (
                             <Nav pullRight>
-                                <NavItem eventKey={1} href="/profile">
+                                <NavItem eventKey={1} href="/profile" onClick={this.handleUserInfo}>
                                     {avatar}
                                 </NavItem>
                                 <NavItem eventKey={1} href="/login" onClick={this.handleClick}>
