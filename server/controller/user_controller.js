@@ -30,7 +30,10 @@ exports.registerUser = async (ctx, next) => {
             email,
             password
         }, process.env.SECRET_KEY);
-        // ctx.cookies.set("jwtToken", token);
+        ctx.cookies.set("jwtToken", token, {
+            maxAge: 7200,
+            httpOnly: false
+        });
         ctx.body = {
             username,
             email,
@@ -90,7 +93,10 @@ exports.loginUser = async (ctx, next) => {
                 email,
                 avatar
             }, process.env.SECRET_KEY);
-            // ctx.cookies.set("jwtToken", token);
+            ctx.cookies.set("jwtToken", token, {
+                maxAge: 7200,
+                httpOnly: false
+            });
             ctx.body = {
                 id,
                 username,
@@ -128,7 +134,7 @@ exports.getUser = async (ctx, next) => {
             select: 'text createAt',
             populate: {
                 path: "twitte",
-                select: 'title description author',
+                select: 'title description author image',
                 model: 'Twitte'
             }
         });

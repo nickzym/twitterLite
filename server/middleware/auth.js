@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 //make sure a user is logged -- authentication
 exports.loginRequired = async function(ctx, next) {
-    console.log(ctx.request.headers);
     try {
         const token = ctx.request.headers.authorization.split(" ")[1];
         await jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {

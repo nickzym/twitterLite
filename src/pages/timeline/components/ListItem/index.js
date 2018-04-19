@@ -69,10 +69,15 @@ class ListItem extends Component {
         console.log(comment);
         commentTwitte(comment, this.state.twitte)
         .then(res => {
-            success("Comment successfully!");
-            this.setState({
-                twitte: this.props.twittes
-            })
+            if(res.status !== '401') {
+                success("Comment successfully!");
+                this.setState({
+                    twitte: this.props.twittes
+                })
+            } else {
+                error(res.message);
+            }
+
         })
         .catch(err => {
             error("Comment failed for some reason");

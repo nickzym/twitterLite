@@ -7,36 +7,45 @@ import { persistStore } from 'redux-persist';
 import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth';
 import jwtDecode from 'jwt-decode';
 
-const createApp=({ store, history, modules })=>{
+const createApp=({store,history,modules})=>{
   console.log(process.env.NODE_ENV==='production',process.env.NODE_ENV)
   const persistor = persistStore(store);
-  // if(cookie) {
-  //     setAuthorizationToken(cookie.get("jwtToken"));
-  //     // prevent someone from manually tempering with the ky of jwtToken in localStorage
-  //     try {
-  //         store.dispatch(setCurrentUser(cookie.get("jwtToken")));
-  //     } catch (err) {
-  //         store.dispatch(setCurrentUser({}));
-  //     }
-  // }
+  // const cookie = document.cookie;
+  // console.log(cookie);
+  const cookie = store.getState().cookie
+
+  if(cookie) {
+      setAuthorizationToken(cookie);
+      // prevent someone from manually tempering with the ky of jwtToken in localStorage
+      try {
+          store.dispatch(setCurrentUser(jwtDecode(cookie)));
+      } catch (err) {
+          persistor.purge();
+          store.dispatch(setCurrentUser({}));
+      }
+  } else {
+      persistor.purge();
+      store.dispatch(setCurrentUser({}));
+  }
+
   if(process.env.NODE_ENV==='production'){
     return (
-        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <Routers history={history} />
-                </PersistGate>
-            </Provider>
-        </Loadable.Capture>
-    )
-
-  } else {
-    return (
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <Routers history={history} />
             </PersistGate>
         </Provider>
+      </Loadable.Capture>
+    )
+
+  }else{
+    return (
+      <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+              <Routers history={history} />
+          </PersistGate>
+      </Provider>
     )
   }
 

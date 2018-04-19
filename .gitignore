@@ -2,4 +2,3 @@ node_modules
 .idea/
 dist
 .gitignore2
-.env

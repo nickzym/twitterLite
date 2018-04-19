@@ -33,7 +33,7 @@ class NormalLoginForm extends React.Component {
                 .then(() => {
                     success('Login successfully!');
                     setTimeout(function() {
-                        window.location.href = '/';
+                        window.location.href = '/timeline';
                     }, 2000);
                 })
                 .catch(() => {

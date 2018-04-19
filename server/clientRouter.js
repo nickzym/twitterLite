@@ -13,8 +13,10 @@ let configureStore = client.configureStore;
 let createApp = client.createApp;
 let routesConfig = client.routesConfig;
 
-const createStore=(configureStore)=>{
-  let store = configureStore();
+const createStore=(configureStore, cookie)=>{
+  let store = configureStore({
+      'cookie': cookie
+  });
   return store;
 }
 
@@ -45,6 +47,7 @@ const getMatch=(routesArray, url)=>{
 
 const makeup=(ctx, store,createApp, html)=>{
   let initState=store.getState();
+
   let history=createHistory({initialEntries:[ctx.req.url]});
 
   let modules=[];
@@ -68,7 +71,9 @@ const makeup=(ctx, store,createApp, html)=>{
 
 const clientRouter=async(ctx,next)=>{
   let html=fs.readFileSync(path.join(path.resolve(__dirname,'../dist'),'index.html'),'utf-8');
-  let store = createStore(configureStore);
+
+  let store = createStore(configureStore, ctx.cookies.get("jwtToken"));
+
   let pureRoutes='';
   // 这段逻辑是用于修复路径上有问号和参数时的匹配bug
   if (ctx.req.url.indexOf('?')>0) {

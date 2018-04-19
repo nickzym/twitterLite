@@ -14,7 +14,7 @@ require('dotenv').config();
 
 const app=require('./app.js').default,
   clientRouter=require('./clientRouter.js').default,
-  port = process.env.PORT || 3000,
+  port = process.env.PORT || 3002,
   staticCache  = require("koa-static-cache"),
   path =require('path'),
   cors=require('koa2-cors'),
@@ -49,5 +49,5 @@ app.use(errorHandler);
 // });
 console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
 Loadable.preloadAll().then(() => {
-  app.listen(port, process.env.IP)
+  app.listen(port)
 })

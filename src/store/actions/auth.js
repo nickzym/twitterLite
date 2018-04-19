@@ -1,6 +1,8 @@
 import { apiCall, setTokenHeader } from "../../services/api";
 import { SET_CURRENT_USER } from "../constants";
 import { addError, removeError } from "./errors";
+import { addCookie, removeCookie } from './cookie';
+
 // an action module
 export function setCurrentUser(user) {
     return {
@@ -18,8 +20,9 @@ export const authUser = (type, userData) => dispatch => {
     return new Promise((resolve, reject) => {
         return apiCall("post", `/api/user/${type}`, userData)
         .then(({token, ...user}) => {
-            localStorage.setItem("jwtToken", token);
-            setAuthorizationToken(token);
+            const cookie = document.cookie;
+            setAuthorizationToken(cookie.split("=")[1]);
+            dispatch(addCookie(cookie));
             dispatch(setCurrentUser(user));
             dispatch(removeError());
             resolve();
@@ -31,8 +34,8 @@ export const authUser = (type, userData) => dispatch => {
     });
 }
 
-export const logOut = cookie => dispatch => {
-    localStorage.clear();
+export const logOut = () => dispatch => {
     setAuthorizationToken();
+    dispatch(removeCookie());
     dispatch(setCurrentUser({}));
 }
