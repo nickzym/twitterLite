@@ -1,11 +1,14 @@
-# Twitter-Lite
+# Twitter-Lite ![Build Status](https://scrutinizer-ci.com/g/nickzym/twitterLite/badges/build.png?b=master)
+
 > Twitter alike web application.
 >
 > User can post their twittes, comment other twittes, access yelp/google/api through their twitte.
 >
-> Based on Koa2, React, Redux, Webpack, Ant Design, Material UI, Yelp Fusion, Google Map Service API. Implement Server-side rendering to accelerate home page render speed.
+> Based on Koa2, mongoDB, React, Redux, Webpack, Ant Design, Material UI, Yelp Fusion, Google Map Service API. Implement Server-side rendering to accelerate home page render speed.
 
+Homepage: http://www.twitte-lite-nickzym.com/
 
+![homepage](/Users/nick/Downloads/www.twitte-lite-nickzym.com_ (3).png)
 
 
 ## Directory
