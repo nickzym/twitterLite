@@ -8,7 +8,9 @@
 
 Homepage: http://www.twitte-lite-nickzym.com/
 
-![homepage](/Users/nick/Downloads/www.twitte-lite-nickzym.com_ (3).png)
+Thanks mLab(Using Microsoft Azure Database), Google Platform Storage, Heroku providing free service. 
+
+![homepage](https://storage.googleapis.com/twitter-twitte/www.twitte-lite-nickzym.com_%20(3).png)
 
 
 ## Directory
