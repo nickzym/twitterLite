@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './style.less';
 
 const Background = () => {
@@ -18,7 +19,7 @@ const Background = () => {
         	    <div className={`${clsPrefix}--content`}>
              		<h1>Welcome to TwitterLite</h1>
              		<hr className={`${clsPrefix}--bar`}></hr>
-            		<a href="/timeline">View Your TimeLine</a>
+            		<p><Link to="/timeline">View Your TimeLine</Link></p>
                 </div>
     	    </div>
         </div>

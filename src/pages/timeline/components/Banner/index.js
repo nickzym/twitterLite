@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './style.less';
 
 class Banner extends Component {
@@ -14,7 +15,7 @@ class Banner extends Component {
                     Share your own experence, favorite restaurants and tour in this lite app.
                 </p>
                 <p>
-                    <Button href="/newpost">Post a twitte</Button>
+                    <Button><Link to="/newpost">Post a twitte</Link></Button>
                 </p>
             </div>
         </Jumbotron>

@@ -5,6 +5,7 @@ import Loadable from 'react-loadable';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth';
+import { addCookie } from '../store/actions/cookie';
 import jwtDecode from 'jwt-decode';
 
 const createApp=({store,history,modules})=>{
@@ -12,12 +13,13 @@ const createApp=({store,history,modules})=>{
     const persistor = persistStore(store);
     // const cookie = document.cookie;
     // console.log(cookie);
-    const cookie = store.getState().cookie
-
+    const cookie = store.getState().cookie;
+    console.log(cookie);
     if(cookie) {
         setAuthorizationToken(cookie);
         // prevent someone from manually tempering with the key of jwtToken in localStorage
         try {
+            store.dispatch(addCookie(cookie));
             store.dispatch(setCurrentUser(jwtDecode(cookie)));
         } catch (err) {
             persistor.purge();

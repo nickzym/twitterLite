@@ -47,6 +47,8 @@ const getMatch = (routesArray, url) => {
 
 const makeup = (ctx, store, createApp, html) => {
     let initState=store.getState();
+    console.log("bibibi");
+    console.log(initState);
 
     let history=createHistory({initialEntries:[ctx.req.url]});
 

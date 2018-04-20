@@ -74,15 +74,17 @@ export const deleteTwitte = (twitte_id, userId, currentTwittes) => dispatch => {
 }
 
 export const commentTwitte = (comment, currentTwittes) => dispatch => {
-    return apiCall('post', '/api/twitte/comment', comment)
-    .then(res => {
-        updateTwittes(currentTwittes, res);
-        console.log(res);
-        storeTwittes = currentTwittes
-        dispatch(updateTwitte(currentTwittes));
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        return apiCall('post', '/api/twitte/comment', comment)
+        .then(res => {
+            updateTwittes(currentTwittes, res);
+            storeTwittes = currentTwittes
+            dispatch(updateTwitte(currentTwittes));
+            resolve(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     })
 }
 
