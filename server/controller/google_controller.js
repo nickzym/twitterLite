@@ -1,7 +1,7 @@
 const bodyParser = require('koa-bodyparser');
 const googleMapsClient = require('@google/maps').createClient({
-  key: process.env.GOOGLE_API_KEY,
-  Promise: require('q').Promise
+    key: process.env.GOOGLE_API_KEY,
+    Promise: require('q').Promise
 });
 
 exports.getGoogleData = async function(ctx, next){

@@ -30,6 +30,7 @@ exports.registerUser = async (ctx, next) => {
             email,
             password
         }, process.env.SECRET_KEY);
+        // use server side cooke to save token
         ctx.cookies.set("jwtToken", token, {
             maxAge: 7200,
             httpOnly: false

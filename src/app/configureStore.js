@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware,compose} from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunkMiddleware from "redux-thunk";
@@ -17,13 +17,13 @@ const composeEnhancers =
     }) : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(...middleware),
+    applyMiddleware(...middleware),
   // other store enhancers if any
 );
 
 const persistConfig = {
-  key: 'root',
-  storage,
+    key: 'root',
+    storage,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

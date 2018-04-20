@@ -7,29 +7,29 @@ const fs = require('fs');
 const Storage = require('@google-cloud/storage');
 
 /**
- * 同步创建文件目录
- * @param  {string} dirname 目录绝对地址
- * @return {boolean}        创建目录结果
+ * make directory sync
+ * @param  {string} dirname directory absolute path
+ * @return {boolean}        result of func
  */
 function mkdirsSync( dirname ) {
-  if (fs.existsSync( dirname )) {
-    return true
-  } else {
+    if (fs.existsSync( dirname )) {
+        return true
+    } else {
     if (mkdirsSync( path.dirname(dirname)) ) {
-      fs.mkdirSync( dirname )
-      return true
+        fs.mkdirSync( dirname )
+        return true
     }
   }
 }
 
 /**
- * 获取上传文件的后缀名
- * @param  {string} fileName 获取上传文件的后缀名
- * @return {string}          文件后缀名
+ * get uploaded file's suffix name
+ * @param  {string} fileName uploaded file
+ * @return {string}          file's suffix
  */
 function getSuffixName( fileName ) {
-  let nameList = fileName.split('.')
-  return nameList[nameList.length - 1]
+    let nameList = fileName.split('.')
+    return nameList[nameList.length - 1]
 }
 
 async function uploadFileToGoogle(saveTo, fileName, bucketName) {
@@ -53,7 +53,7 @@ async function uploadFileToGoogle(saveTo, fileName, bucketName) {
 
 
 /**
- * 上传文件
+ * uploaded file
  * @param  {object} ctx     koa上下文
  * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
  * @return {promise}
@@ -81,7 +81,7 @@ async function uploadFile( ctx, options) {
             const stream = fs.createWriteStream(saveTo);
             reader.pipe(stream);
             console.log('file writes into local storage');
-            // 文件写入事件结束
+
             uploadFileToGoogle(saveTo, fileName, fileType)
             .then(res => {
                 console.log('file upload successfully!');
