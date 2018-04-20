@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
-import { Avatar } from 'antd';
+import { Avatar, Icon } from 'antd';
+import { Icon as IconFont } from 'react-fa';
 import './style.less';
-import { Icon } from 'react-fa';
 import { logOut } from '../../store/actions/auth';
 import { success, error } from '../Message/index';
 
@@ -57,17 +57,17 @@ class Header extends Component {
                                     {avatar}
                                 </NavItem>
                                 <NavItem eventKey={1} href="/login" onClick={this.handleClick}>
-                                    <Icon name="fab fa-sign-out" />  Log Out
+                                    <IconFont name="fab fa-sign-out" />  Log Out
                                 </NavItem>
                             </Nav>
                         ) :
                         (
                             <Nav pullRight>
                                 <NavItem eventKey={1} href="/login">
-                                    <Icon name="fab fa-user" />  Login
+                                    <Icon type="user" />  Login
                                 </NavItem>
                                 <NavItem eventKey={2} href="/signup">
-                                    <Icon name="fab fa-sign-in" />  Sign Up
+                                    <Icon type="user-add" />  Sign Up
                                 </NavItem>
                             </Nav>
                         )

@@ -11,8 +11,9 @@ exports.registerUser = async (ctx, next) => {
         //create a token
         // process.env.__
         let field = JSON.parse(ctx.request.body.fields.field);
+
         let serverFilePath = path.join(__dirname, 'uploads');
-        const res = await uploadFile(ctx, {
+        const res = await uploadFile(ctx, next, {
             fileType: 'avatar',
             path: serverFilePath
         });
@@ -31,6 +32,10 @@ exports.registerUser = async (ctx, next) => {
             password
         }, process.env.SECRET_KEY);
         // use server side cooke to save token
+        ctx.cookies.set("jwtToken", token, {
+            maxAge: 7200,
+            httpOnly: false
+        });
         ctx.cookies.set("jwtToken", token, {
             maxAge: 7200,
             httpOnly: false

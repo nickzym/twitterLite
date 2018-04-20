@@ -58,7 +58,7 @@ async function uploadFileToGoogle(saveTo, fileName, bucketName) {
  * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
  * @return {promise}
  */
-async function uploadFile( ctx, options) {
+async function uploadFile( ctx, next, options) {
     let req = ctx.request;
 
     // 获取类型
@@ -90,6 +90,8 @@ async function uploadFile( ctx, options) {
             .catch(err => {
                 console.error('Google storage error:', err);
             });
+        } else {
+            resolve('');
         }
     });
 }
