@@ -33,12 +33,9 @@ exports.registerUser = async (ctx, next) => {
         }, process.env.SECRET_KEY);
         // use server side cooke to save token
         ctx.cookies.set("jwtToken", token, {
-            maxAge: 7200,
-            httpOnly: false
-        });
-        ctx.cookies.set("jwtToken", token, {
-            maxAge: 7200,
-            httpOnly: false
+            maxAge: 7200000,
+            httpOnly: false,
+            domain: process.env.PORT || 3002 === 3002 ? 'localhost' : 'twitte-lite-nickzym.com'
         });
         ctx.body = {
             username,
@@ -100,8 +97,9 @@ exports.loginUser = async (ctx, next) => {
                 avatar
             }, process.env.SECRET_KEY);
             ctx.cookies.set("jwtToken", token, {
-                maxAge: 7200,
-                httpOnly: false
+                maxAge: 7200000,
+                httpOnly: false,
+                domain: process.env.PORT || 3002 === 3002 ? 'localhost' : 'twitte-lite-nickzym.com'
             });
             ctx.body = {
                 id,

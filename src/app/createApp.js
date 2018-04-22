@@ -11,10 +11,9 @@ import jwtDecode from 'jwt-decode';
 const createApp=({store,history,modules})=>{
     console.log(process.env.NODE_ENV==='production',process.env.NODE_ENV)
     const persistor = persistStore(store);
-    // const cookie = document.cookie;
-    // console.log(cookie);
+
     const cookie = store.getState().cookie;
-    console.log(cookie);
+
     if(cookie) {
         setAuthorizationToken(cookie);
         // prevent someone from manually tempering with the key of jwtToken in localStorage

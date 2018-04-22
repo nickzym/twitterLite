@@ -18,6 +18,9 @@ const mapStateToProps = state => (
 class PremiumTwitteForm extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            file: null,
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.normFile = this.normFile.bind(this);
     }
@@ -43,7 +46,7 @@ class PremiumTwitteForm extends React.Component {
                 .then(res => {
                     success('Post a new twitte successfully!');
                     setTimeout(function() {
-                        window.location.href = '/timeline';
+                        window.location.href = "/timeline";
                     }, 2000);
                 })
                 .catch(err => {

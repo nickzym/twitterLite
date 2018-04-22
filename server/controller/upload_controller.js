@@ -65,6 +65,7 @@ async function uploadFile( ctx, next, options) {
     let fileType = options.fileType || 'common'
     let filePath = path.join( options.path,  fileType)
     let mkdirResult = mkdirsSync( filePath )
+    console.log('哈哈哈哈哈哈');
     return new Promise((resolve, reject) => {
         let result = {
             avatar: '',
@@ -72,6 +73,9 @@ async function uploadFile( ctx, next, options) {
         };
         let file = req.body.files.file;
         let field = JSON.parse(req.body.fields.field);
+
+        console.log(file);
+        console.log(field);
         if (file) {
             let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(file.name);
             let _uploadFilePath = path.join( filePath, fileName );

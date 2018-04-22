@@ -44,7 +44,7 @@ class NormalTwitteForm extends React.Component {
                 .then(res => {
                     success('Post a new twitte successfully!');
                     setTimeout(function() {
-                        window.location.href = '/timeline';
+                        window.location.href = "/timeline";
                     }, 2000);
                 })
                 .catch(err => {

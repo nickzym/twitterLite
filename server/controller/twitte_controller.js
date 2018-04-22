@@ -10,7 +10,7 @@ exports.createTwitte = async function(ctx, next){
         let twitte;
         if (isPremium) {
             const { title, description, price, location, author } = ctx.request.body;
-            const res = await uploadFile(ctx, {
+            const res = await uploadFile(ctx, next, {
                 fileType: 'twitte',
                 path: serverFilePath
             });
@@ -26,7 +26,7 @@ exports.createTwitte = async function(ctx, next){
             });
             console.log(twitte);
         } else {
-            const res = await uploadFile(ctx, {
+            const res = await uploadFile(ctx, next, {
                 fileType: 'twitte',
                 path: serverFilePath
             });

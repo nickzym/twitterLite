@@ -47,8 +47,6 @@ const getMatch = (routesArray, url) => {
 
 const makeup = (ctx, store, createApp, html) => {
     let initState=store.getState();
-    console.log("bibibi");
-    console.log(initState);
 
     let history=createHistory({initialEntries:[ctx.req.url]});
 
@@ -72,6 +70,7 @@ const makeup = (ctx, store, createApp, html) => {
 
 
 const clientRouter = async(ctx,next) => {
+
     let html=fs.readFileSync(path.join(path.resolve(__dirname,'../dist'),'index.html'),'utf-8');
 
     let store = createStore(configureStore, ctx.cookies.get("jwtToken"));
