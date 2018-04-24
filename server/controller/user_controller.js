@@ -35,7 +35,7 @@ exports.registerUser = async (ctx, next) => {
         ctx.cookies.set("jwtToken", token, {
             maxAge: 7200000,
             httpOnly: false,
-            domain: process.env.PORT || 3002 === 3002 ? 'localhost' : 'twitte-lite-nickzym.herokuapp.com/'
+            domain: process.env.PORT === 3002 ? 'localhost' : 'twitte-lite-nickzym.com'
         });
         ctx.body = {
             username,
@@ -99,7 +99,7 @@ exports.loginUser = async (ctx, next) => {
             ctx.cookies.set("jwtToken", token, {
                 maxAge: 7200000,
                 httpOnly: false,
-                domain: process.env.PORT || 3002 === 3002 ? 'localhost' : 'twitte-lite-nickzym.herokuapp.com/'
+                domain: process.env.PORT === 3002 ? 'localhost' : 'twitte-lite-nickzym.com'
             });
             ctx.body = {
                 id,
